@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Title>IVSoftware.GlyphProvider.WinForms</Title>
-		<PackageId>IVSoftware.GlyphProvider.WinForms</PackageId>
+		<Title>IVSoftware.WinOS.GlyphProvider</Title>
+		<PackageId>IVSoftware.WinOS.GlyphProvider</PackageId>
 		<Description>
 			Windows-specific font loader and glyph support for IVSoftware’s Portable GlyphProvider.
 			Provides PrivateFontCollection integration, embedded TTF loading, and GDI+ FontFamily materialization.
@@ -40,7 +40,7 @@
 		<DebugType>embedded</DebugType>
 
 		<BaseVersion>1.0.0</BaseVersion>
-		<VersionPrefix>$(BaseVersion)-local1</VersionPrefix>
+		<VersionPrefix>$(BaseVersion)-local32</VersionPrefix>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -49,12 +49,12 @@
 
 	<!-- Debug uses local project reference -->
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+		<ProjectReference Include="..\IVSoftware.Portable.GlyphProvider\IVSoftware.GlyphProvider.Portable.csproj" />
 	</ItemGroup>
 
 	<!-- Release uses packaged dependency -->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-local1" />
+		<PackageReference Include="IVSoftware.Portable.GlyphProvider" Version="1.0.0-local32" />
 	</ItemGroup>
 	
 	<ItemGroup>

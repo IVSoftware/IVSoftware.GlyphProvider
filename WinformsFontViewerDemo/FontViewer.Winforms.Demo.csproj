@@ -33,12 +33,12 @@
 
 	<!-- Debug uses local project references -->
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
-        <ProjectReference Include="..\IVSoftware.GlyphProvider.WinForms\IVSoftware.GlyphProvider.WinForms.csproj" />
+		<ProjectReference Include="..\IVSoftware.Portable.GlyphProvider\IVSoftware.GlyphProvider.Portable.csproj" />
+        <ProjectReference Include="..\IVSoftware.WinOS.GlyphProvider\IVSoftware.GlyphProvider.WinForms.csproj" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="1.0.0-local1" />
+        <PackageReference Include="IVSoftware.WinOS.GlyphProvider" Version="1.0.0-local32" />
 	</ItemGroup>
 
 </Project>
