@@ -1,23 +1,32 @@
-﻿![sponsoring](https://raw.githubusercontent.com/IVSoftware/IVSoftware.Portable.GlyphProvider/master/IVSoftware.Portable.GlyphProvider/README/img/sponsoring.png)
+﻿![sponsoring](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/sponsoring.png)
 
-## IVSoftware.Portable.Glyph Provider
+## IVSoftware.GlyphProvider.Portable  [[GitHub](https://github.com/IVSoftware/IVSoftware.GlyphProvider.git)]
 
-This micro utility works with custom [Fontello](https://www.fontello.com) webfont packages whether they contain a few glyphs or dozens. The `config.json` they include is already a good index. This package builds on it - working with multiple config files, generating name-to-unicode mappings for XAML and C#, and generating `enum` structures ideal for binding glyph properties in XAML that are visible to intellisense.
+This micro utility works with custom [Fontello](https://www.fontello.com) webfont packages whether they contain a few glyphs or dozens. Each package comes with a `config.json` file that catalogs its contents. In Visual Studio, changing the Build Action property of these `config.json` files allows this utility to generate name-to-unicode mappings for XAML and C#, and `enum` structures that can be used directly to access the data. This for example, makes them ideal for binding glyph properties in XAML that are visible to intellisense.
+
+The Fontello archive also contains the `.ttf` font file itself and platforms have varying requirements for importing it (see table below). Generally, this utility doesn't interact with the `.ttf` file directly. The exception is WinForms, which requires the `System.Drawing.PrivateFontCollection` class in order to import the as hoc font files. When developing for WinForms, the recommended NuGet package is `IVSoftware.GlyphProvider.WinForms` which handles this for you.
 ___
 
-## Quick Start
+## Quick Start - `icon-basics.ttf`
 
-Platforms have different requirements for `.ttf` files, and these still need to be followed. This utility, however, interacts with the `config.json` not the font itself. 
+This package comes with a small custom glyph font or you can design your own on the Fontello site. Instructions for copying this folder can be found in the [IconBasics Readme](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/icon-basics.md).
 
-1. After downloading and extracting the .zipo archive from Fontello, place your webfont folder in the appropriate folder for MAUI, WPF or WinForms, open the properties of `config.json` and set the Build Property to Embedded Resource (that is, even for WPF it should be Embedded Resource and not Resource).
+1.Place the `icon-basics` webfont folder (or if you prefer, one you have custom provisioned on Fontello) in the appropriate folder for MAUI, WPF or WinForms. 
 
-2. Boosting the cache (the dictionary that maps names to glyphs) will often improve latency on the crucial first access. This can be done in an async init method and there is no need to await it.
+2. Open the properties of `config.json` and set the Build Action property to Embedded Resource (that is, even for WPF it should be Embedded Resource and not Resource).
 
-3. In the same `async` method, you can place temporary code to generate one or more named `enum` structures - this can be pasted to the codebase to define named enums.
+3. Open the properties of `icon-basics.ttf` and set its Build Action property to:
+    - **MauiFont** for .NET MAUI
+    - **Resource** for WPF (remembering that `config.json` is different - it's still an *embedded* resource.)
+    - **EmbeddedResource** for WinForms.
 
-Once the `enum` exists in code you can use it to call extensions like `ToGlyph` in C# or XAML formats, and use the enum in XAML for bound glyph properties.
+4. No initialization is required. The samples below use the `GlyphProvider.IconBasics` enum to demonstrate a simple icon viewer for each platform.
 
+5. To improve latency on the crucial first access, boost the cache (the dictionary that maps names to glyphs) in an async init method called from the main page ctor as shown (there is no need to await this).
+
+6. After launching the demo for your platform, the next step will be automatically generating the corresponding `enum` for new glyph fonts that are created.
 ___
+
 ## Boosting the Cache
 
 This snippet is shown in MAUI but represents a canonical flow for _any_ client - there are no platform differences as far as this utility is concerned. 
@@ -38,6 +47,58 @@ public partial class MainPage : ContentPage
     }
 }
 ```
+
+___
+
+## Introduction to Enums
+
+When a named `enum` is defined in C# code its members can be used to call the `ToGlyph()` extension. There are three return options: the raw unicode which is essentially a string value (not a `char`) like `"\uE802"`for example. The code snippet below assumes that will be an unprintable string out of context, but provides the `GlyphFormat.UnicodeDisplay` in order to get a viewable representation.
+
+```
+[TestMethod]
+public void Test_IntroductionToEnums()
+{
+    var enumMember = GlyphProvider.IconBasics.Edit;
+
+    string unicodeGlyph = enumMember.ToGlyph(); // Default GlyphFormat.Unicode
+
+    Assert.AreEqual(
+        "U+E802",
+        enumMember.ToGlyph(GlyphFormat.UnicodeDisplay),
+        "Expecting a viewable representation of the unicode glyph.");
+
+    Assert.AreEqual(
+        "&#xE802;",
+        enumMember.ToGlyph(GlyphFormat.Xaml),
+        "Expecting a value suitable for use in XAML");
+}
+```
+
+___
+
+## Platform Quick Starts
+
+Although this utility has no direct interactions with the `.ttf` file itself, this section is here to ensure a smooth onboarding experience taking framework differences into account. In particular, setting the Build Action property for the `.ttf` file itself is critical, and varies slightly depending on the framework:
+
+| Platform   | Build Action | Notes |
+|------------|--------------------------|-------|
+| [**MAUI**](#maui-quick-start)     | `MauiFont`               | In `MauiProgram.cs` add make an entry in the `ConfigureFonts` block following the existing `OpenSans` pattern. |
+| [**WinForms**](#winforms-quick-start)  | `EmbeddedResource`       | Requires `PrivateFontCollection` (in the BCL) as shown in the sample code below. |
+| [**WPF**](#wpf-quick-start)       | `Resource`               | XAML can reference it with `pack://application:,,,/YourFont.ttf`. |
+
+
+
+___
+### MAUI Quick Start
+
+
+___
+### WinForms Quick Start
+
+
+___
+### WPF Quick Start
+
 
 ___
 
@@ -134,62 +195,3 @@ DocNew
 #endif
 }
 ```
-___
-
-## Introduction to Enums
-
-Once the named `enum` is defined in C# code, us it to call the `ToGlyph()` extension. There are three return options: the raw unicode which is essentially a string value (not a `char`) like `"\uE802"`for example. The code snippet below assumes that will be an unprintable string out of context, but provides the `GlyphFormat.UnicodeDisplay` in order to get a viewable representation.
-
-```
-[TestMethod]
-public void Test_IntroductionToEnums()
-{
-    var enumMember = GlyphProvider.IconBasics.Edit;
-
-    string unicodeGlyph = enumMember.ToGlyph(); // Default GlyphFormat.Unicode
-
-    Assert.AreEqual(
-        "U+E802",
-        enumMember.ToGlyph(GlyphFormat.UnicodeDisplay),
-        "Expecting a viewable representation of the unicode glyph.");
-
-    Assert.AreEqual(
-        "&#xE802;",
-        enumMember.ToGlyph(GlyphFormat.Xaml),
-        "Expecting a value suitable for use in XAML");
-}
-```
-
-___
-
-## Platform Quick Starts
-
-Although this utility has no direct interactions with the `.ttf` file itself, this section is here to ensure a smooth onboarding experience taking framework differences into account. In particular, setting the Build Action property for the `.ttf` file itself is critical, and varies slightly depending on the framework:
-
-| Platform   | Build Action | Notes |
-|------------|--------------------------|-------|
-| **MAUI**     | `MauiFont`               | In `MauiProgram.cs` add make an entry in the `ConfigureFonts` block following the existing `OpenSans` pattern. |
-| **WPF**      | `Resource`               | XAML can reference it with `pack://application:,,,/YourFont.ttf`. |
-| **WinForms** | `EmbeddedResource`       | Requires `PrivateFontCollection` (in the BCL) as shown in the sample code below. |
-
-___
-## `Icon-Basics` Font - Works Out Of The Box
-
-Follow the instructions found [here](https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider/blob/master/IVSoftware.Portable.GlyphProvider/README/icon-basics.md) to copy and provision this font to your Maui, WPF or WinForms project.
-
-___
-### MAUI Quick Start
-
-[here](https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider/blob/master/IVSoftware.Portable.GlyphProvider/README/quick-start-maui.md)
-
-___
-### WinForms Quick Start
-
-[here](https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider/blob/master/IVSoftware.Portable.GlyphProvider/README/quick-start-winforms.md)
-
-___
-### WPF Quick Start
-
-[here](https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider/blob/master/IVSoftware.Portable.GlyphProvider/README/quick-start-wpf.md)
-
-
