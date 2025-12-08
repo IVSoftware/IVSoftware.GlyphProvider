@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000mm"
+   height="1000mm"
+   viewBox="0 0 1000 1000"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="parent_pin_collapsed.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.14291496"
+     inkscape:cx="-5650.2134"
+     inkscape:cy="2144.6321"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1"></defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-125)" />
+  <g
+     id="g1"
+     transform="translate(0,125)">
+    <path
+       d="M 375.2,125 H 375 v 3.9 37.8 41.6 333.4 41.6 37.8 3.9 h 0.2 c 2.1,69.4 58.8,125 128.7,125 H 625 V 677.1 416.7 333.3 93.8 0 H 503.9 C 434,0 377.3,55.6 375.2,125 Z M 0,242.4 V 507.6 C 0,572.4 52.6,625 117.4,625 H 312.5 V 541.7 208.3 125 H 117.4 C 52.6,125 0,177.6 0,242.4 Z m 958.3,90.9 H 687.5 v 83.4 h 270.8 c 23,0 41.7,-18.7 41.7,-41.7 0,-23 -18.7,-41.7 -41.7,-41.7 z"
+       fill="#000000"
+       id="path1" />
+  </g>
+</svg>

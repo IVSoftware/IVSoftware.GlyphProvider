@@ -1,0 +1,132 @@
+{
+  "name": "icon-basics",
+  "css_prefix_text": "onepage-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "0677f879e75956571d8cbbb478487c47",
+      "css": "add",
+      "code": 59392,
+      "src": "typicons"
+    },
+    {
+      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
+      "css": "delete",
+      "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "62b0580ee8edc3a3edfbf68a47c852d5",
+      "css": "edit",
+      "code": 59394,
+      "src": "elusive"
+    },
+    {
+      "uid": "107ce08c7231097c7447d8f4d059b55f",
+      "css": "ellipsis-horizontal",
+      "code": 59395,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "750058837a91edae64b03d60fc7e81a7",
+      "css": "ellipsis-vertical",
+      "code": 59396,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "4109c474ff99cad28fd5a2c38af2ec6f",
+      "css": "filter",
+      "code": 59397,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9dd9e835aebe1060ba7190ad2b2ed951",
+      "css": "search",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e99461abfef3923546da8d745372c995",
+      "css": "settings",
+      "code": 59400,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "dd6c6b221a1088ff8a9b9cd32d0b3dd5",
+      "css": "checked",
+      "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "4b900d04e8ab8c82f080c1cfbac5772c",
+      "css": "unchecked",
+      "code": 59402,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e45a3da2ebde8bc8e30a873f3bd51f30",
+      "css": "eye",
+      "code": 59403,
+      "src": "elusive"
+    },
+    {
+      "uid": "d218294e6f9f7191f6b0b3d1ff6239ff",
+      "css": "eye-off",
+      "code": 59404,
+      "src": "elusive"
+    },
+    {
+      "uid": "a3d734a5b4bec33fc3aa459d82092b23",
+      "css": "help-circled",
+      "code": 59405,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "3e02a8849305ac80a0e36302f461f265",
+      "css": "help-circled-alt",
+      "code": 59406,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "7141927f949e757c7e218cf70d9dceb4",
+      "css": "doc-empty",
+      "code": 59407,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "f978da58836f23373882916f05fb70b4",
+      "css": "doc",
+      "code": 59408,
+      "src": "linecons"
+    },
+    {
+      "uid": "9e0404ba55575a540164db9a5ad511df",
+      "css": "doc-new",
+      "code": 59409,
+      "src": "elusive"
+    },
+    {
+      "uid": "735cea31a94ec284285c15ebc45ecfc8",
+      "css": "https://fontello.com/",
+      "code": 59393,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M375.2 250H375V253.9 291.7 333.3 666.7 708.3 746.1 750H375.2C377.3 819.4 434 875 503.9 875H625V802.1 541.7 458.3 218.8 125H503.9C434 125 377.3 180.6 375.2 250ZM0 367.4V632.6C0 697.4 52.6 750 117.4 750H312.5V666.7 333.3 250H117.4C52.6 250 0 302.6 0 367.4ZM958.3 458.3H687.5V541.7H958.3C981.3 541.7 1000 523 1000 500 1000 477 981.3 458.3 958.3 458.3Z",
+        "width": 1000
+      },
+      "search": [
+        "parent_pin_collapsed"
+      ]
+    }
+  ]
+}

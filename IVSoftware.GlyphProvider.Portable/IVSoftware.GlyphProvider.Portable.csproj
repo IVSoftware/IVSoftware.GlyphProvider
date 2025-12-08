@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Title>IVSoftware.Portable.GlyphProvider</Title>
+        <PackageId>IVSoftware.Portable.GlyphProvider</PackageId>
+        <Description>Portable glyph identity resolver using embedded config.json files shipped alongside custom fonts. Provides ToGlyph extensions, enum prototype generation, and GlyphAttribute for declarative binding.</Description>
+        <PackageTags>portable;cross-platform;glyphs;fontello;icons;enum;binding;declarative</PackageTags>
+        <RepositoryUrl>https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider.git</PackageProjectUrl>
+        <RootNamespace>IVSoftware.Portable</RootNamespace>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Author>Thomas C. Gregor</Author>
+        <Owner>IVSoftware LLC</Owner>
+        <Copyright>Copyright © 2023-2025 IVSoftware LLC</Copyright>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+        <Version>$(AssemblyVersion)</Version>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>
+Initial prerelease including:
+- Embedded config.json glyph metadata discovery.
+- Fuzzy string glyph lookup with fallbacks.
+- CreateEnumPrototype for strongly typed glyph enums.
+- GlyphAttribute for declarative glyph binding.
+- Bundled icon-basics font kit under content/icon-basics/.
+        </PackageReleaseNotes>
+
+        <AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
+        <DebugType>embedded</DebugType>
+        <BaseVersion>1.0.0</BaseVersion>
+        <VersionPrefix>$(BaseVersion)-local32</VersionPrefix>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <SignAssembly>true</SignAssembly>
+    </PropertyGroup>	
+
+    <!-- Pack the entire icon-basics folder into /content/icon-basics -->
+    <ItemGroup>
+        <Content Include="Resources\Fonts\icon-basics\**\*.*">
+            <Pack>true</Pack>
+            <PackagePath>content/icon-basics/</PackagePath>
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Remove="Resources\Fonts\icon-basics\config.json" />
+      <Content Remove="Resources\Fonts\icon-basics\demo.html" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="config.icon-basics.json" />
+      <EmbeddedResource Include="Resources\Fonts\icon-basics\config.json" />
+      <EmbeddedResource Include="Resources\Fonts\icon-basics\demo.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IVSoftware.Portable.Disposable" Version="*-*" />
+        <PackageReference Include="IVSoftware.Portable.WatchdogTimer" Version="*" />
+        <PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+        <PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-local2" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="README\" />
+    </ItemGroup>
+
+</Project>

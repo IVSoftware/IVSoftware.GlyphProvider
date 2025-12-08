@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\icon-basics\config.json" />
+    <EmbeddedResource Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
+    <Content Include="Resources\Fonts\icon-basics\css\animation.css" />
+    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
+    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
+    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
+    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
+    <Content Include="Resources\Fonts\icon-basics\css\icon-basics.css" />
+    <Content Include="Resources\Fonts\icon-basics\demo.html" />
+    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.eot" />
+    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.svg" />
+    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff" />
+    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff2" />
+    <Content Include="Resources\Fonts\icon-basics\LICENSE.txt" />
+    <Content Include="Resources\Fonts\icon-basics\README.txt" />
+  </ItemGroup>
+
+
+	<!-- Debug uses local project references -->
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+        <ProjectReference Include="..\IVSoftware.GlyphProvider.WinForms\IVSoftware.GlyphProvider.WinForms.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <PackageReference Include="IVSoftware.WinOS.GlyphProvider" Version="1.0.0-local32" />
+	</ItemGroup>
+
+</Project>

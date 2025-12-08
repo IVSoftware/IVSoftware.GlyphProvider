@@ -1,0 +1,111 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Title>IVSoftware.WinOS.GlyphProvider</Title>
+		<PackageId>IVSoftware.WinOS.GlyphProvider</PackageId>
+		<Description>
+			Windows-specific font loader and glyph support for IVSoftware’s Portable GlyphProvider.
+			Provides PrivateFontCollection integration, embedded TTF loading, and GDI+ FontFamily materialization.
+		</Description>
+		<PackageTags>windows;winforms;glyphs;font;privatefontcollection;gdi;icons</PackageTags>
+		<RepositoryUrl>https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider.git</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider.git</PackageProjectUrl>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<RootNamespace>IVSoftware.WinOS</RootNamespace>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+		<Author>Thomas C. Gregor</Author>
+		<Owner>IVSoftware LLC</Owner>
+		<Copyright>Copyright © 2023-2025 IVSoftware LLC</Copyright>
+
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(AssemblyVersion)</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+
+		<PackageReleaseNotes>
+			Initial prerelease including:
+			- Windows-only font loader using System.Drawing.Text.PrivateFontCollection.
+			- Safe AddMemoryFont handling with unmanaged cleanup.
+			- Built-in caching for loaded FontFamily instances.
+			- Integrates with IVSoftware.Portable.GlyphProvider for glyph identity resolution.
+		</PackageReleaseNotes>
+
+		<AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
+		<DebugType>embedded</DebugType>
+
+		<BaseVersion>1.0.0</BaseVersion>
+		<VersionPrefix>$(BaseVersion)-local32</VersionPrefix>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<SignAssembly>true</SignAssembly>
+	</PropertyGroup>
+
+	<!-- Debug uses local project reference -->
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+	</ItemGroup>
+
+	<!-- Release uses packaged dependency -->
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="IVSoftware.Portable.GlyphProvider" Version="1.0.0-local32" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Remove="Fonts\icon-basics\config.json" />
+	  <None Remove="Fonts\icon-basics\css\animation.css" />
+	  <None Remove="Fonts\icon-basics\css\icon-basics-codes.css" />
+	  <None Remove="Fonts\icon-basics\css\icon-basics-embedded.css" />
+	  <None Remove="Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
+	  <None Remove="Fonts\icon-basics\css\icon-basics-ie7.css" />
+	  <None Remove="Fonts\icon-basics\css\icon-basics.css" />
+	  <None Remove="Fonts\icon-basics\demo.html" />
+	  <None Remove="Fonts\icon-basics\font\icon-basics.eot" />
+	  <None Remove="Fonts\icon-basics\font\icon-basics.svg" />
+	  <None Remove="Fonts\icon-basics\font\icon-basics.ttf" />
+	  <None Remove="Fonts\icon-basics\font\icon-basics.woff" />
+	  <None Remove="Fonts\icon-basics\font\icon-basics.woff2" />
+	  <None Remove="Fonts\icon-basics\LICENSE.txt" />
+	  <None Remove="Fonts\icon-basics\README.txt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Fonts\icon-basics\config.json" />
+	  <Content Include="Fonts\icon-basics\css\animation.css" />
+	  <Content Include="Fonts\icon-basics\css\icon-basics-codes.css" />
+	  <Content Include="Fonts\icon-basics\css\icon-basics-embedded.css" />
+	  <Content Include="Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
+	  <Content Include="Fonts\icon-basics\css\icon-basics-ie7.css" />
+	  <Content Include="Fonts\icon-basics\css\icon-basics.css" />
+	  <Content Include="Fonts\icon-basics\demo.html" />
+	  <Content Include="Fonts\icon-basics\font\icon-basics.eot" />
+	  <Content Include="Fonts\icon-basics\font\icon-basics.svg" />
+	  <Content Include="Fonts\icon-basics\font\icon-basics.ttf" />
+	  <Content Include="Fonts\icon-basics\font\icon-basics.woff" />
+	  <Content Include="Fonts\icon-basics\font\icon-basics.woff2" />
+	  <Content Include="Fonts\icon-basics\LICENSE.txt" />
+	  <Content Include="Fonts\icon-basics\README.txt" />
+	</ItemGroup>
+
+	<!-- Always needed -->
+	<ItemGroup>
+		<PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="README\" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+<Project>
+	<!-- Installing a link to the IconBasics font doesn't really provide a way to consume it
+	<ItemGroup>
+		<Content Include="$(MSBuildThisPackageRoot)contentFiles\any\any\Resources\Fonts\icon-basics\font\icon-basics.ttf">
+			<Link>Resources\icon-basics.ttf</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	-->
+</Project>

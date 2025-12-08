@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+        <RootNamespace>IVSoftware.Portable.MSTest</RootNamespace>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\icon-basics\config.json">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </EmbeddedResource>
+    <Content Include="Fonts\icon-basics\css\animation.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\css\icon-basics-codes.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\css\icon-basics-embedded.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\css\icon-basics-ie7-codes.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\css\icon-basics-ie7.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\css\icon-basics.css">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\demo.html">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\font\icon-basics.eot">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\font\icon-basics.svg">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\font\icon-basics.ttf">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\font\icon-basics.woff">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\font\icon-basics.woff2">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\LICENSE.txt">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="Fonts\icon-basics\README.txt">
+      <PackagePath>content/icon-basics/</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IVSoftware.WinOS.MSTest.Extensions" Version="1.0.8" />
+    <PackageReference Include="MSTest" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+</Project>
