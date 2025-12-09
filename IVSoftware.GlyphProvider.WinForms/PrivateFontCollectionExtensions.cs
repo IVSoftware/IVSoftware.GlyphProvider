@@ -7,7 +7,7 @@ namespace IVSoftware.WinOS
 {
     public static class PrivateFontCollectionExtensions
     {
-        public static FontFamily? LoadEmbeddedFont(this GlyphProvider provider, string endsWith = ".ttf")
+        public static FontFamily? GetFontFamily(this GlyphProvider provider, string endsWith = ".ttf")
         {
             var fontFamily = provider.Name;
 

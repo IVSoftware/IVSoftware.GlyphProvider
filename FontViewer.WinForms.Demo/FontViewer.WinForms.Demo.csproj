@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\icon-basics\config.json" />
+    <Content Include="Resources\Fonts\icon-basics\config.json" />
     <EmbeddedResource Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
     <EmbeddedResource Include="Resources\Fonts\icon-media-control\config.json" />
     <EmbeddedResource Include="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
@@ -62,5 +62,4 @@
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
         <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="1.0.0-local1" />
 	</ItemGroup>
-
 </Project>

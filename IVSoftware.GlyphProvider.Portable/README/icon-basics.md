@@ -23,7 +23,14 @@ In your project, create the `Resources\Fonts` directory if it doesn't already ex
 <img src="https://github.com/IVSoftware/IVSoftware.Portable.GlyphProvider/blob/master/IVSoftware.Portable.GlyphProvider/README/img/embed-the-resource.png" width="600"><br>
 
 ### Step 3 - Set the Build Property of `config.json` to **Embedded Resource** as shown above.
-___
 
-## Platform Specific Quick Start Examples
+___
+Although this utility has no direct interactions with the `.ttf` file itself, this section is here to ensure a smooth onboarding experience taking framework differences into account. In particular, setting the Build Action property for the `.ttf` file itself is critical, and varies slightly depending on the framework:
+
+| Platform   | Build Action | Notes |
+|------------|--------------------------|-------|
+| **MAUI**     | `MauiFont`               | In `MauiProgram.cs` add make an entry in the `ConfigureFonts` block following the existing `OpenSans` pattern. |
+| **WinForms**  | `EmbeddedResource`       | Requires `PrivateFontCollection` (in the BCL) as shown in platform-specific sample code. |
+| **WPF**      | `Resource`               | XAML can reference it with `pack://application:,,,/YourFont.ttf`. |
+
 

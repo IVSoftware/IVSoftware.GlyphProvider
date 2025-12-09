@@ -2,7 +2,6 @@ using IVSoftware.Portable;
 using IVSoftware.WinOS;
 using Newtonsoft.Json;
 using System.ComponentModel;
-using System.Xml.Linq;
 
 namespace WinformsFontViewerDemo
 {
@@ -18,73 +17,131 @@ namespace WinformsFontViewerDemo
             await GlyphProvider.WaitAsync();
 
             if (GlyphProvider.Providers[typeof(GlyphProvider.IconBasics)] is GlyphProvider provider &&
-                provider.LoadEmbeddedFont() is FontFamily fontFamily)
+                provider.GetFontFamily() is FontFamily fontFamily)
             {
-                IconBasics = new Font(fontFamily, 12.5F);
-                var padding = new Padding(1, 1, 1, 1);
+                var font = new Font(fontFamily, 12.5F);
                 foreach (var icon in Enum.GetValues<GlyphProvider.IconBasics>())
                 {
-                    var button = new Button
-                    {
-                        TextAlign = ContentAlignment.MiddleCenter,
-                        Size = new(50, 50),
-                        Margin = padding,
-                        Font = IconBasics,
-                        Tag = icon,
-                    };
-
-                    // ------------------------------------
-                    // Required for any label or button
-                    // that renders a glyph in WinForms.
-                    button.UseCompatibleTextRendering = true;
-                    // ---------------------------------===
-
-                    button.Text = icon.ToGlyph();
-                    button.MouseEnter += Any_MouseEnter;
-                    button.MouseHover += Any_MouseHover;
-                    button.MouseLeave += Any_MouseLeave;
-                    button.Click += Any_Click;
-                    flowLayoutPanel.Controls.Add(button);
+                    flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, StdIconName = icon});
                 }
             }
 
             string[] prototypes = await GlyphProvider.CreateEnumPrototypes();
+            var enumGen = string.Join(Environment.NewLine, prototypes);
             { }
+
+            // GlyphProvider doesn't enumerate its own provider for GlyphProvider.IconBasics unless
+            // requested. This is so that EUD's config space isn't polluted with an unwanted default.
+            var iconBasicsProvider = GlyphProvider.Providers[typeof(GlyphProvider.IconBasics)];
+            foreach(
+                var item in 
+                GlyphProvider.Providers.Values
+                .Concat([iconBasicsProvider]).OfType<GlyphProvider>().Distinct())
+            {
+                comboBoxConfig.Items.Add(item);
+            }
+            comboBoxConfig.SelectedIndex = comboBoxConfig.Items.IndexOf(iconBasicsProvider);
+            comboBoxConfig.SelectedIndexChanged += OnConfigSelected;
+            comboBoxConfig.Visible = comboBoxConfig.Items.Count > 1;
+        }
+
+        private void OnConfigSelected(object? sender, EventArgs e)
+        {
+            if (comboBoxConfig.SelectedItem is GlyphProvider provider && provider.GetFontFamily() is { } fontFamily)
+            {
+                var font = new Font(fontFamily, 12.5F);
+                flowLayoutPanel.Controls.Clear();
+                if (provider.StdIconEnumType is { } stdIconType)
+                {
+                    // If an enum type has been defined for provider, use it.
+                    foreach (Enum icon in Enum.GetValues(stdIconType))
+                    {
+                        flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, StdIconName = icon });
+                    }
+                }
+                else
+                {
+                    // Otherwise, the raw information can still be used to greate iconic buttons.
+                    foreach (var info in provider.Glyphs)
+                    {
+                        flowLayoutPanel.Controls.Add(
+                            new GlyphButton
+                            {
+                                Font = font,
+                                Text = char.ConvertFromUtf32(info.Code).ToString()
+                            });
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// The easy way is to subclass Button, giving it
+    /// a first-class Enum property for str icon values.
+    /// </summary>
+    class GlyphButton : Button
+    {
+        public GlyphButton()
+        {
+            Height = 50;
+            Width = 50;
+            Margin = new Padding(1);
+            Padding = new();
+            // ------------------------------------
+            // Required for any label or button
+            // that renders a glyph in WinForms.
+            UseCompatibleTextRendering = true;
+            // ---------------------------------===
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Font? IconBasics { get; private set; }
-
-        private void Any_MouseEnter(object? sender, EventArgs e) 
-            => ((Control)sender!).ForeColor = Color.Aqua;
-        private void Any_MouseHover(object? sender, EventArgs e)
+        public Enum? StdIconName
         {
-            if (sender is Control control && control.Tag is Enum icon)
+            get => _stdIconName;
+            set
             {
-                string tooltipText = icon.ToString();
+                if (!Equals(_stdIconName, value))
+                {
+                    _stdIconName = value;
+                    if (_stdIconName is Enum icon)
+                    {
+                        Text = _stdIconName?.ToGlyph() ?? string.Empty;
+                    }
+                }
+            }
+        }
+        Enum? _stdIconName = default;
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            ForeColor = Color.Aqua;
+        }
+        protected override void OnMouseHover(EventArgs e)
+        {
+            base.OnMouseHover(e);
+            if (StdIconName is Enum icon)
+            {
                 Point offset = new Point(25, -25);
-                _tooltip.Show(tooltipText, control, offset, 4000);
+                _tooltip.Show(icon.ToString(), this, offset, 4000);
             }
         }
-
-        private void Any_MouseLeave(object? sender, EventArgs e)
+        protected override void OnMouseLeave(EventArgs e)
         {
-            if (sender is Control control)
-            {
-                _tooltip.Hide(control);
-                control.ForeColor = SystemColors.ControlText;
-            }
+            base.OnMouseLeave(e);
+            _tooltip.Hide(this);
+            ForeColor = SystemColors.ControlText;
         }
-
-        private void Any_Click(object? sender, EventArgs e)
+        protected override void OnMouseClick(MouseEventArgs e)
         {
-            if(((Control)sender!)!.Tag is Enum icon && icon.ToGlyphInfo() is { } info)
+            base.OnMouseClick(e);
+            if (StdIconName?.ToGlyphInfo() is { } info)
             {
-                MessageBox.Show(JsonConvert.SerializeObject(info, Formatting.Indented));
+                var json = JsonConvert.SerializeObject(info, Formatting.Indented);
+                MessageBox.Show(json);
             }
         }
-
-        ToolTip _tooltip = new ToolTip
+        static ToolTip _tooltip = new ToolTip
         {
             AutoPopDelay = 5000,
             InitialDelay = 500,

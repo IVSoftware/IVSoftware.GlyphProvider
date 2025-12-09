@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FontViewer.Maui.Demo.MainPage"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto, *">
+        <Border
+            x:Name="NavBar"
+            IsVisible="False"
+            HeightRequest="40"
+            Stroke="Black"
+            StrokeThickness="1"
+            Padding="1">
+            <Grid
+                BackgroundColor="#EEEEEE">
+                <Picker
+                    x:Name="ConfigPicker"
+                    FontSize="12.5"/>
+            </Grid>
+        </Border>
+        <FlexLayout
+            x:Name="flexLayout"
+            BackgroundColor="Azure"
+            Grid.Row="1"
+            Direction="Row"
+            Wrap="Wrap"
+            AlignContent="Start"
+            Margin="5"
+            Padding="5">
+            
+        </FlexLayout>
+    </Grid>
+</ContentPage>

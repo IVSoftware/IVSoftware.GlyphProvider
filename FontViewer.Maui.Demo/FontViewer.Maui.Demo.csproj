@@ -1,0 +1,121 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>FontViewer.Maui.Demo</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>FontViewer.Maui.Demo</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.ivsoftware.fontviewer.maui.demo</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-ios'">
+	  <CodesignKey>Apple Development: Created via API (7RK5C47358)</CodesignKey>
+	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\animation.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\animation.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-codes.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-embedded.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-ie7-codes.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-ie7.css" />
+	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control.css" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Fonts\icon-media-control\config.json" />
+	  <None Remove="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Fonts\icon-basics\css\animation.css" />
+	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
+	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
+	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
+	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
+	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics.css" />
+	  <Content Include="Resources\Fonts\icon-basics\demo.html" />
+	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.eot" />
+	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.svg" />
+	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff" />
+	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff2" />
+	  <Content Include="Resources\Fonts\icon-basics\LICENSE.txt" />
+	  <Content Include="Resources\Fonts\icon-basics\README.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Fonts\icon-media-control\config.json" />
+	  <MauiFont Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
+	  <MauiFont Include="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+	</ItemGroup>
+
+
+	<!-- Debug uses local project references -->
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-local1" />
+	</ItemGroup>
+</Project>

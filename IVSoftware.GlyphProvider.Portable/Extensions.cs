@@ -5,8 +5,28 @@ namespace IVSoftware.Portable
 {
     public static class GlyphProviderExtensions
     {
+        /// <summary>
+        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
+        /// </summary>
         public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format = GlyphFormat.Unicode)
             => GlyphProvider.Providers[stdGlyph.GetType()]?[stdGlyph, format];
+
+        /// <summary>
+        /// Reverse lookup the provider key.
+        /// </summary>
+        public static string? ToProviderKey(this Enum stdGlyph)
+            => GlyphProvider.Providers[stdGlyph.GetType()]?.Key;
+
+        /// <summary>
+        /// Return the css font family name specified in the [CssNameAttribute] or
+        /// fall back to the name of the enum type.
+        /// </summary>
+        public static string ToCssFontName(this Enum stdGlyph)
+            => stdGlyph.GetType().GetCustomAttribute<CssNameAttribute>()?.Name ?? stdGlyph.GetType().Name.ToString();
+
+        /// <summary>
+        /// Retrieve the JSON-serialized node for this enum value in config.json.
+        /// </summary>
         public static Glyph? ToGlyphInfo(this Enum stdGlyph, GlyphFormat format = GlyphFormat.Unicode)
         {
             if(GlyphProvider.Providers[stdGlyph.GetType()] is { } provider)

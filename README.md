@@ -129,69 +129,78 @@ private async Task InitAsync()
             prototypes);
 
 	// Copy the `enumsGen` from text visualizer to your code.
-	// The block below gives you an idea of what to expect, but
-	// isn't suitable for copying due to the escaped double quotes.
-
-    var expected = @"
-[CssName(""icon-basics"")]
-public enum StdIconBasics
-{
-[CssName(""add"")]
-Add,
-
-[CssName(""delete"")]
-Delete,
-
-[CssName(""edit"")]
-Edit,
-
-[CssName(""ellipsis-horizontal"")]
-EllipsisHorizontal,
-
-[CssName(""ellipsis-vertical"")]
-EllipsisVertical,
-
-[CssName(""filter"")]
-Filter,
-
-[CssName(""menu"")]
-Menu,
-
-[CssName(""search"")]
-Search,
-
-[CssName(""settings"")]
-Settings,
-
-[CssName(""checked"")]
-Checked,
-
-[CssName(""unchecked"")]
-Unchecked,
-
-[CssName(""eye"")]
-Eye,
-
-[CssName(""eye-off"")]
-EyeOff,
-
-[CssName(""help-circled"")]
-HelpCircled,
-
-[CssName(""help-circled-alt"")]
-HelpCircledAlt,
-
-[CssName(""doc-empty"")]
-DocEmpty,
-
-[CssName(""doc"")]
-Doc,
-
-[CssName(""doc-new"")]
-DocNew
-}".Trim();
-
-    var fontFamily = typeof(IconBasics).ToCssFontFamilyName();
-#endif
 }
 ```
+
+The block below shows what to expect in the visualizer. There will be one enum for each `config.json` file.
+
+
+[CssName("icon-basics")]
+public enum StdIconBasics
+{
+	[CssName("add")]
+	Add,
+
+	[CssName("delete")]
+	Delete,
+
+	[CssName("edit")]
+	Edit,
+
+	[CssName("ellipsis-horizontal")]
+	EllipsisHorizontal,
+
+	[CssName("ellipsis-vertical")]
+	EllipsisVertical,
+
+	[CssName("filter")]
+	Filter,
+
+	[CssName("menu")]
+	Menu,
+
+	[CssName("search")]
+	Search,
+
+	[CssName("settings")]
+	Settings,
+
+	[CssName("checked")]
+	Checked,
+
+	[CssName("unchecked")]
+	Unchecked,
+
+	[CssName("shown")]
+	Shown,
+
+	[CssName("hidden")]
+	Hidden,
+
+	[CssName("help-circled")]
+	HelpCircled,
+
+	[CssName("help-circled-alt")]
+	HelpCircledAlt,
+
+	[CssName("doc-empty")]
+	DocEmpty,
+
+	[CssName("doc")]
+	Doc,
+
+	[CssName("doc-new")]
+	DocNew,
+
+	[CssName("parent-pin-collapsed")]
+	ParentPinCollapsed,
+
+	[CssName("parent-pin-expanded")]
+	ParentPinExpanded,
+
+	[CssName("child-pin-collapsed")]
+	ChildPinCollapsed,
+
+	[CssName("child-pin-expanded")]
+	ChildPinExpanded
+}

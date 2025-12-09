@@ -359,6 +359,7 @@ namespace IVSoftware.Portable
         {
             var cMe1 = asm.GetName().Name;
             var cMe2 = asm.GetManifestResourceNames();
+            bool foundConfig = false;
             foreach (var resourcePath in cMe2)
             {
                 if (resourcePath.EndsWith("config.json", StringComparison.InvariantCultureIgnoreCase))
@@ -373,6 +374,26 @@ namespace IVSoftware.Portable
                         json.ThrowSoft<JsonException>("Defective config file.");
                     }
                     Providers[glyphProvider.Key] = glyphProvider;
+                    foundConfig = true;
+                }
+            }
+            // Only if config is found do we enumerate the Enums.
+            if (foundConfig)
+            {
+                foreach (var type in asm.ExportedTypes.Where(_ => _.IsEnum)) 
+                {
+                    if (type.GetCustomAttribute<CssNameAttribute>() is { } attr)
+                    {
+                        var key = $"{asm.GetName().Name}.{attr.Name}";
+                        if(Providers[key] is { } provider)
+                        {
+                            provider.StdIconEnumType = type;
+                        }
+                        else
+                        {   /* G T K */
+                            // This just means that the config doesn't have a corresponding enum.
+                        }
+                    }
                 }
             }
         }
@@ -405,7 +426,7 @@ namespace IVSoftware.Portable
                 }
             }
         }
-        public static GlyphProviderDictionary Providers { get;  } = new ();
+        public static GlyphProviderDictionary Providers { get; } = new ();
 
         private static GlyphProvider IconBasicsProvider
         {
@@ -439,11 +460,16 @@ namespace IVSoftware.Portable
                             json.ThrowSoft<JsonException>("Defective config file.");
                         }
                         _iconBasicsProvider = glyphProvider;
+                        _iconBasicsProvider.StdIconEnumType = typeof(IconBasics);
                     }
                 }
                 return _iconBasicsProvider;
             }
         }
+
+        [JsonIgnore]
+        public Type StdIconEnumType { get; private set; }
+
         static GlyphProvider? _iconBasicsProvider = null;
 
 
@@ -460,5 +486,6 @@ namespace IVSoftware.Portable
             }
             return builder.ToArray();
         }
+        public override string ToString() => Key;
     }
 }
