@@ -1,5 +1,5 @@
 ﻿<Window 
-    x:Class="FontViewer.WPF.Demo.MainWindow"
+    x:Class="FontViewer.Wpf.Demo.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="WPF Font Viewer Demo"

@@ -3,12 +3,17 @@ using IVSoftware.Portable.Common.Exceptions;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
 
-namespace IVSoftware.WinOS
+namespace IVSoftware.WinForms
 {
     public static class PrivateFontCollectionExtensions
     {
         public static FontFamily? GetFontFamily(this GlyphProvider provider, string endsWith = ".ttf")
         {
+            if(string.IsNullOrEmpty(provider.Name))
+            {
+                provider.ThrowHard<NullReferenceException>("Provider and Name must be non-null. Name must be non-empty.");
+                return null;
+            }
             var fontFamily = provider.Name;
 
             if (fontFamily.Contains('.'))

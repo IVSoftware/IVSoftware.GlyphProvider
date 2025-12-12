@@ -404,6 +404,7 @@ namespace IVSoftware.Portable
         [DebuggerDisplay("Count={Count}")]
         public class GlyphProviderDictionary : TolerantDictionary<string, GlyphProvider> 
         {
+            [Indexer]
             public GlyphProvider? this[Type stdEnumType]
             {
                 get
@@ -412,7 +413,8 @@ namespace IVSoftware.Portable
                     if (stdEnumType.IsEnum)
                     {
                         var key = stdEnumType.ToGlyphProviderKey();
-                        if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
+                        //if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
+                        if(key == "IVSoftware.GlyphProvider.Portable.icon-basics")
                         {
                             preview = IconBasicsProvider;
                         }
@@ -466,11 +468,14 @@ namespace IVSoftware.Portable
                 return _iconBasicsProvider;
             }
         }
+        static GlyphProvider? _iconBasicsProvider = null;
 
         [JsonIgnore]
-        public Type StdIconEnumType { get; private set; }
-
-        static GlyphProvider? _iconBasicsProvider = null;
+        public Type? StdIconEnumType { get; private set; }
+        public static class Wpf
+        {
+            public static Uri BaseUri { get; } = new("pack://application:,,,/");
+        }
 
 
         /// <summary>

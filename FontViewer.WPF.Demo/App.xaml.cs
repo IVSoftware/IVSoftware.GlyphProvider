@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace FontViewer.WPF.Demo
+namespace FontViewer.Wpf.Demo
 {
     /// <summary>
     /// Interaction logic for App.xaml

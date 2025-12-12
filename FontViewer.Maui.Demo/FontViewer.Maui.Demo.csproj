@@ -62,42 +62,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\animation.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-basics\css\icon-basics.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\animation.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-codes.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-embedded.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-ie7-codes.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control-ie7.css" />
-	  <MauiCss Remove="Resources\Fonts\icon-media-control\css\icon-media-control.css" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Resources\Fonts\icon-media-control\config.json" />
-	  <None Remove="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Resources\Fonts\icon-basics\css\animation.css" />
-	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
-	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
-	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
-	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
-	  <Content Include="Resources\Fonts\icon-basics\css\icon-basics.css" />
-	  <Content Include="Resources\Fonts\icon-basics\demo.html" />
-	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.eot" />
-	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.svg" />
-	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff" />
-	  <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff2" />
-	  <Content Include="Resources\Fonts\icon-basics\LICENSE.txt" />
-	  <Content Include="Resources\Fonts\icon-basics\README.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Fonts\icon-media-control\config.json" />
 	  <MauiFont Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
 	  <MauiFont Include="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
@@ -116,6 +80,6 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-local1" />
+		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="*-*" />
 	</ItemGroup>
 </Project>

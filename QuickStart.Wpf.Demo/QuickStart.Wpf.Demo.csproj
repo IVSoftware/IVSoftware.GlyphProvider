@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	
+	<!-- Debug uses local project references -->
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\IVSoftware.GlyphProvider.Portable\IVSoftware.GlyphProvider.Portable.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="IVSoftware.GlyphProvider.Wfp" Version="*-*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
+	</ItemGroup>
+</Project>

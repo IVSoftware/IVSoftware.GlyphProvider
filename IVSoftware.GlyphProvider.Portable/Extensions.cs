@@ -1,5 +1,8 @@
-﻿using System.Reflection;
+﻿using IVSoftware.Portable.Common.Exceptions;
+using System.IO;
+using System.Reflection;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IVSoftware.Portable
 {
@@ -22,7 +25,14 @@ namespace IVSoftware.Portable
         /// fall back to the name of the enum type.
         /// </summary>
         public static string ToCssFontName(this Enum stdGlyph)
-            => stdGlyph.GetType().GetCustomAttribute<CssNameAttribute>()?.Name ?? stdGlyph.GetType().Name.ToString();
+            => stdGlyph.GetType().ToCssFontName();
+
+        /// <summary>
+        /// Return the css font family name specified in the [CssNameAttribute] or
+        /// fall back to the name of the enum type.
+        /// </summary>
+        public static string ToCssFontName(this Type enumType)
+            => enumType.GetCustomAttribute<CssNameAttribute>()?.Name ?? enumType.GetType().Name.ToString();
 
         /// <summary>
         /// Retrieve the JSON-serialized node for this enum value in config.json.
@@ -61,11 +71,15 @@ namespace IVSoftware.Portable
 
         /// <summary>
         /// - Retrieves a standard attribute applied to an Enum member, or null if not found.
-        /// - Throws if multiple attributes of type TAttr are applied to the same Enum member.
-        /// - To retrieve intentional multiple attributes, call GetOnePageAttributes() instead.
         /// </summary>
         public static CssNameAttribute? GetCssNameAttribute(this Enum id)
             => id.GetCustomAttribute<CssNameAttribute>();
+
+        /// <summary>
+        /// - Retrieves a standard attribute applied to an Enum type, or null if not found.
+        /// </summary>
+        public static CssNameAttribute? GetCssNameAttribute(this Type enumType)
+            => enumType.GetCustomAttribute<CssNameAttribute>();
 
         /// <summary>
         /// Produces a key in the form "EnumType.Member".
@@ -93,7 +107,7 @@ namespace IVSoftware.Portable
         internal static string ToGlyphProviderKey(this Enum member) =>
             member.GetType().ToGlyphProviderKey();
         internal static string ToGlyphProviderKey(this Type type) =>
-            $"{type.Assembly.GetName().Name}.{type.Name}";
+            $"{type.Assembly.GetName().Name}.{type.ToCssFontName()}";
 
         public static string ToPascalCase(this string @this)
         {
@@ -118,71 +132,157 @@ namespace IVSoftware.Portable
             return sb.ToString();
         }
 
-#if false
-        public static string ToCssFontFamilyName(this Type @this, string? ext = null, bool @throw = false)
+        /// <summary>
+        /// Return the first Embedded Resource or Resource containing all substrings and ending with ext.
+        /// </summary>
+        [Canonical]
+        public static string[] GetResourcePaths(
+            this Assembly asm,
+            string[] contains,
+            string? ext = null,
+            StringComparison? stringComparison = null)
         {
-            if (@this.GetCustomAttribute<CssNameAttribute>()?.Name is { } name && !string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(string.Join(string.Empty, contains)))
             {
-                return name.WithExtension(ext);
+                nameof(GetResourcePaths).ThrowHard<ArgumentException>(
+                    $"{nameof(GetResourcePaths)} '{nameof(contains)}' provide at least one substring to match.");
             }
-            else return
-               @throw
-               ? throw new InvalidOperationException($"Missing Attribute: {nameof(CssNameAttribute)}")
-               : @this.Name.WithExtension(ext);
+            stringComparison ??= StringComparison.OrdinalIgnoreCase;
+
+            var matches = new List<string>();
+            foreach (var name in 
+                     asm.GetManifestResourceNames()
+                     .Where(_=> 
+                        contains.All(substr=>_.Contains(substr, (StringComparison)stringComparison)) ||
+                        _.EndsWith(".g.resources", (StringComparison)stringComparison)))
+            {
+                if(name.EndsWith(".g.resources", (StringComparison)stringComparison))
+                {
+                    using (var stream = asm.GetManifestResourceStream(name))
+                    using (var reader = stream is null ? null : new System.Resources.ResourceReader(stream))
+                    {
+                        if (reader is not null)
+                        {
+                            foreach (System.Collections.DictionaryEntry entry in reader)
+                            {
+                                if( entry.Key is string sub &&
+                                    !string.IsNullOrWhiteSpace(sub) &&
+                                    contains.All(_=>sub.Contains(_, (StringComparison)stringComparison)))
+                                {
+                                    matches.Add(sub);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    matches.Add(name);
+                }
+            }
+            if (ext is null)
+            {
+                return matches.Distinct().ToArray();
+            }
+            else
+            {
+                if (!ext.StartsWith("."))
+                {
+                    ext = "." + ext;
+                }
+                return matches.Where(_=>_.EndsWith(ext, StringComparison.OrdinalIgnoreCase)).Distinct().ToArray();
+            }
         }
-        private static string WithExtension(this string @this, string? ext)
+
+        public static string? GetResourcePath(
+            this Assembly asm,
+            string resource,
+            string? ext = null,
+            StringComparison? stringComparison = null)
+            => asm.GetResourcePaths([resource], ext, stringComparison).FirstOrDefault();
+
+        public static string? GetResourcePath<T>(
+            this string resource,
+            string? ext = null,
+            StringComparison? stringComparison = null)
+            => typeof(T).Assembly.GetResourcePath(resource, ext);
+
+        /// <summary>
+        /// Converts a discovered WPF resource path (e.g. a TTF inside .g.resources)
+        /// into a WPF-friendly FontFamily source string. This string can be used as the
+        /// <paramref name="familyName"/> argument when constructing a new
+        /// <see cref="System.Windows.Media.FontFamily"/>.
+        ///
+        /// WPF requires that embedded font families be referenced using a *folder-based*
+        /// pack URI, ending with "#<family>" where <family> is the font's internal family
+        /// name. The URI can be absolute (canonical form) or relative (XAML-style).
+        ///
+        /// Examples:
+        ///    resource path:
+        ///        "resources/fonts/icon-basics/font/icon-basics.ttf"
+        ///
+        ///    relative family name:
+        ///        "./resources/fonts/icon-basics/font/#icon-basics"
+        ///
+        ///    absolute family name:
+        ///        "pack://application:,,,/AssemblyName;component/resources/fonts/icon-basics/font/#icon-basics"
+        ///
+        /// <para>
+        /// By default, this method derives the family name from the TTF filename
+        /// (e.g. "icon-basics"). If the font's true internal family name differs,
+        /// supply it explicitly using the <paramref name="internalName"/> parameter.
+        /// </para>
+        /// </summary>
+        public static string ToWpfFamilyName<T>(
+            this string resource, 
+            string? internalName = null,    // If different e.g. "icon-basics" holds "icon_basics-Regular"
+            bool relative = false)          // Default to abs path
         {
-            ext = ext?.TrimStart('.').Insert(0, ".");
-            return $"{@this}{ext}";
+            var dir = Path.GetDirectoryName(resource)
+                ?.Replace('\\', '/')
+                ?? throw new InvalidOperationException("Invalid resource path.");
+
+            internalName ??= Path.GetFileNameWithoutExtension(resource);
+
+            var assemblyName = typeof(T).Assembly.GetName().Name;
+
+            string preview;
+            if (relative)
+            {
+                preview = 
+                    $"./{dir}/#{internalName}";
+            }
+            else
+            {
+                // Build the canonical WPF pack URI
+                preview = 
+                    $"pack://application:,,,/{assemblyName};component/{dir}/#{internalName}";
+            }
+            return preview;
         }
-#endif
-        public static string? GetResourcePath(this Assembly asm, string fontFamily, string endsWith, StringComparison? stringComparison = null)
+
+        static readonly char MinGlyph = '\uE000'; // typical PUA start
+        static readonly char MaxGlyph = '\uF8FF'; // typical PUA end
+        public static bool IsGlyphChar(this char c) => 
+            c >= MinGlyph && c <= MaxGlyph;
+        public static bool IsGlyphChar(this char? c) =>
+            c is not null && 
+            ((char)c).IsGlyphChar();
+
+        public static bool TryUpdateIconicText(this string textB4, Enum? stdIconName, out string textFTR, int spacing = 1)
         {
-            StringComparison comparison = stringComparison ?? StringComparison.OrdinalIgnoreCase;
-            string[] manifestResourceNames = asm.GetManifestResourceNames();
-            string[] matches;
-            string? resourcePath;
-
-            // Normalize endsWith to ensure ".ttf" shape
-            if (!endsWith.StartsWith("."))
+            var spaces = string.Join(string.Empty, Enumerable.Repeat(" ", spacing));
+            char? c = textB4?.FirstOrDefault();
+            if (c.IsGlyphChar())
             {
-                endsWith = "." + endsWith;
+                textB4 = textB4!.Substring(1).TrimStart();
             }
-
-            // ---------------------------------------------------------
-            // 1. STRICT MATCH:  icon-basics.ttf
-            // ---------------------------------------------------------
-            matches =
-                manifestResourceNames
-                .Where(_ => _.EndsWith($"{fontFamily}{endsWith}", comparison))
-                .ToArray();
-
-            { } // debugger-visible list of strict matches
-
-            if (matches.Length > 0)
-            {
-                resourcePath = matches[0];
-                return resourcePath;
-            }
-
-            // ---------------------------------------------------------
-            // 2. FALLBACK MATCH:  icon_basics.ttf  (de-kabob)
-            // ---------------------------------------------------------
-            var deKabob = fontFamily.Replace('-', '_');
-            matches =
-                manifestResourceNames
-                .Where(_ => _.EndsWith($"{deKabob}{endsWith}", StringComparison.OrdinalIgnoreCase))
-                .ToArray();
-
-            { } // debugger-visible fallback list
-
-            if (matches.Length > 0)
-            {
-                resourcePath = matches[0];
-                return resourcePath;
-            }
-
-            return null;
+            textFTR = (
+                stdIconName?.ToGlyph() is { } glyph
+                ? $"{glyph}{spaces}{textB4}"
+                : textB4
+            )!;
+            return textFTR != textB4;
         }
     }
 }

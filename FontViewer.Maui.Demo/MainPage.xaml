@@ -28,8 +28,6 @@
             Wrap="Wrap"
             AlignContent="Start"
             Margin="5"
-            Padding="5">
-            
-        </FlexLayout>
+            Padding="5"/>
     </Grid>
 </ContentPage>

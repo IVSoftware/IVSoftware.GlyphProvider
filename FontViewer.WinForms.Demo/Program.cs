@@ -1,4 +1,4 @@
-namespace WinformsFontViewerDemo
+namespace FontViewer.WinForms.Demo
 {
     internal static class Program
     {

@@ -1,7 +1,4 @@
 ﻿using IVSoftware.Portable;
-using IVSoftware.Portable.Collections.Dictionaries;
-using Newtonsoft.Json;
-using System.Collections;
 
 namespace FontViewer.Maui.Demo
 {
@@ -20,6 +17,7 @@ namespace FontViewer.Maui.Demo
         {
             await GlyphProvider.WaitAsync();
 
+
             foreach (var icon in Enum.GetValues<GlyphProvider.IconBasics>())
             {
                 flexLayout.Children.Add(new GlyphButton { StdIconName = icon, });
@@ -28,7 +26,12 @@ namespace FontViewer.Maui.Demo
             // GlyphProvider doesn't enumerate its own provider for GlyphProvider.IconBasics unless
             // requested. This is so that EUD's config space isn't polluted with an unwanted default.
             var iconBasicsProvider = GlyphProvider.Providers[typeof(GlyphProvider.IconBasics)];
-            ConfigPicker.ItemsSource = GlyphProvider.Providers.Values.Concat([iconBasicsProvider]).Distinct().ToArray();
+
+            ConfigPicker.ItemsSource = 
+                GlyphProvider.Providers.Values
+                .Concat([iconBasicsProvider])   // Concat the icon-basics provider, which is not automatically included
+                .Distinct().ToArray();
+
             ConfigPicker.SelectedIndex = ConfigPicker.ItemsSource.IndexOf(iconBasicsProvider);
             ConfigPicker.SelectedIndexChanged += OnConfigSelected;
             NavBar.IsVisible = ConfigPicker.ItemsSource.Count > 1;
@@ -62,59 +65,5 @@ namespace FontViewer.Maui.Demo
                 }
             }
         }
-    }
-
-    class GlyphButton : Button
-    {
-        public GlyphButton()
-        {
-            HeightRequest = 50;
-            WidthRequest = 50;
-            BorderColor = Color.FromArgb("#444444");
-            Margin = new Thickness(1);
-            Padding = 0;
-            FontSize = 18;
-
-            Clicked += async (sender, e) =>
-            {
-                if (StdIconName?.ToGlyphInfo() is { } info &&
-                    Window?.Page is { } page)
-                {
-                    var json = JsonConvert.SerializeObject(info, Formatting.Indented);
-                    await page.DisplayAlertAsync(null, json, "Close");
-                }
-            };
-        }
-        public static readonly BindableProperty GlyphProperty =
-            BindableProperty.Create(
-                nameof(StdIconName),
-                typeof(Enum),
-                typeof(GlyphButton),
-                default(Enum),
-                propertyChanged: OnGlyphChanged);
-
-        public Enum? StdIconName
-        {
-            get => (Enum?)GetValue(GlyphProperty);
-            set => SetValue(GlyphProperty, value);
-        }
-
-        static void OnGlyphChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            if (newValue is Enum icon)
-            {
-                var button = (GlyphButton)bindable;
-                button.FontFamily = icon.ToCssFontName();
-                button.Text = icon?.ToGlyph() ?? string.Empty;
-            }
-        }
-
-#if WINDOWS
-        // Highlight when mouse is hovered.
-        public void PointerInBounds(bool isInBounds)
-        {
-            TextColor = isInBounds ? Colors.Aqua : Colors.Black;
-        }
-#endif
     }
 }

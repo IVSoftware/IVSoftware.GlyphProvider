@@ -1,55 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>FontViewer.WinForms.Demo</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\config.json" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\animation.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\icon-basics-codes.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\icon-basics-embedded.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\icon-basics-ie7.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\css\icon-basics.css" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\demo.html" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\font\icon-basics.eot" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\font\icon-basics.svg" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\font\icon-basics.ttf" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\font\icon-basics.woff" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\font\icon-basics.woff2" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\LICENSE.txt" />
-    <Content Remove="C:\Users\tgreg\.nuget\packages\ivsoftware.glyphprovider.winforms\1.0.0-local1\contentFiles\any\net8.0-windows7.0\Fonts\icon-basics\README.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
-    <None Remove="Resources\Fonts\icon-media-control\config.json" />
-    <None Remove="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Resources\Fonts\icon-basics\config.json" />
     <EmbeddedResource Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
     <EmbeddedResource Include="Resources\Fonts\icon-media-control\config.json" />
     <EmbeddedResource Include="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
-    <Content Include="Resources\Fonts\icon-basics\css\animation.css" />
-    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-codes.css" />
-    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-embedded.css" />
-    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7-codes.css" />
-    <Content Include="Resources\Fonts\icon-basics\css\icon-basics-ie7.css" />
-    <Content Include="Resources\Fonts\icon-basics\css\icon-basics.css" />
-    <Content Include="Resources\Fonts\icon-basics\demo.html" />
-    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.eot" />
-    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.svg" />
-    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff" />
-    <Content Include="Resources\Fonts\icon-basics\font\icon-basics.woff2" />
-    <Content Include="Resources\Fonts\icon-basics\LICENSE.txt" />
-    <Content Include="Resources\Fonts\icon-basics\README.txt" />
   </ItemGroup>
 
 
@@ -60,6 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="1.0.0-local1" />
+        <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="*-*" />
 	</ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace WinformsFontViewerDemo
+﻿namespace FontViewer.WinForms.Demo
 {
     partial class MainForm
     {

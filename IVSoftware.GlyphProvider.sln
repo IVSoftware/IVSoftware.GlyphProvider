@@ -13,7 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontViewer.WinForms.Demo", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontViewer.Maui.Demo", "FontViewer.Maui.Demo\FontViewer.Maui.Demo.csproj", "{3C889A96-9DAB-40C5-8CE8-9379601E6868}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontViewer.WPF.Demo", "FontViewer.WPF.Demo\FontViewer.WPF.Demo.csproj", "{B597535C-DD18-43C5-B230-27E2A936AA53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontViewer.Wpf.Demo", "FontViewer.WPF.Demo\FontViewer.Wpf.Demo.csproj", "{B597535C-DD18-43C5-B230-27E2A936AA53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStart.Maui.Demo", "QuickStart.Maui.Demo\QuickStart.Maui.Demo.csproj", "{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStart.WinForms.Demo", "QuickStart.WinForms.Demo\QuickStart.WinForms.Demo.csproj", "{98EA9ECD-9ACA-4F0D-8E96-73EA2853566C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickStart.Wpf.Demo", "QuickStart.Wpf.Demo\QuickStart.Wpf.Demo.csproj", "{5AD17A68-078E-485C-B6C9-59C4FFAE4563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphButton.Maui.Demo", "GlyphButton.Maui.Demo\GlyphButton.Maui.Demo.csproj", "{6363E29F-6103-407C-982C-F8BDE41EE7BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlyphButton.Maui.Binding.Demo", "GlyphButton.Maui.Binding.Demo\GlyphButton.Maui.Binding.Demo.csproj", "{441401D5-05C5-4FD5-9D81-35B922F2EEDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +56,29 @@ Global
 		{B597535C-DD18-43C5-B230-27E2A936AA53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B597535C-DD18-43C5-B230-27E2A936AA53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B597535C-DD18-43C5-B230-27E2A936AA53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8A31B8-778E-4B4E-B9AE-1FB51ABAF951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EA9ECD-9ACA-4F0D-8E96-73EA2853566C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EA9ECD-9ACA-4F0D-8E96-73EA2853566C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EA9ECD-9ACA-4F0D-8E96-73EA2853566C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EA9ECD-9ACA-4F0D-8E96-73EA2853566C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD17A68-078E-485C-B6C9-59C4FFAE4563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD17A68-078E-485C-B6C9-59C4FFAE4563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD17A68-078E-485C-B6C9-59C4FFAE4563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD17A68-078E-485C-B6C9-59C4FFAE4563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6363E29F-6103-407C-982C-F8BDE41EE7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6363E29F-6103-407C-982C-F8BDE41EE7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6363E29F-6103-407C-982C-F8BDE41EE7BE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6363E29F-6103-407C-982C-F8BDE41EE7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6363E29F-6103-407C-982C-F8BDE41EE7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441401D5-05C5-4FD5-9D81-35B922F2EEDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441401D5-05C5-4FD5-9D81-35B922F2EEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441401D5-05C5-4FD5-9D81-35B922F2EEDF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{441401D5-05C5-4FD5-9D81-35B922F2EEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441401D5-05C5-4FD5-9D81-35B922F2EEDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
