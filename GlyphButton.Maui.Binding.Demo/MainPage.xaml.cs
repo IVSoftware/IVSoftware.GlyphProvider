@@ -19,7 +19,6 @@ namespace GlyphButton.Maui.Binding.Demo
 
     class MainPageBindingContext : INotifyPropertyChanged
     {
-
         int count = 0, mod;
         public MainPageBindingContext()
         {
@@ -29,11 +28,10 @@ namespace GlyphButton.Maui.Binding.Demo
         private void OnClicked(object o)
         {
             mod = count % _icons.Length;
-            StdIconName = _icons[mod];
-            string
-                prefix = StdIconName?.ToGlyph()!,
-                suffix = count == 0 ? " " : "s";
             count++;
+            Text = $"Clicked {count} time{(count == 0 ? string.Empty : "s")}";
+
+            StdIconName = _icons[mod];
         }
 
         GlyphProvider.IconBasics[] _icons = Enum.GetValues<GlyphProvider.IconBasics>();
