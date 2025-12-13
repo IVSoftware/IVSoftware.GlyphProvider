@@ -7,7 +7,7 @@
 This example uses standard MAUI `Button` controls. The XAML sets up an empty `FlexLayout`, and the `InitAsync` method flows iconic buttons into it at runtime. Data-binding scenarios (for example, binding enum values directly in XAML) are covered in the `GlyphButton` section and the platform-specific `Font Viewer` demos linked from the main README.
 
 
-![MAUI Quick Start](./img/maui-quick-start.png)
+![MAUI Quick Start](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/maui-quick-start.png)
 
 ### XAML
 

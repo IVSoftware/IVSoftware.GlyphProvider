@@ -6,7 +6,7 @@
 The designer sets up an empty `FlowLayoutPanel`. The `InitAsync` method populates it with iconic buttons at runtime. WinForms loads custom fonts through `System.Drawing.PrivateFontCollection` (handled automatically by the platform-specific NuGet package). Every glyph-bearing control must set `UseCompatibleTextRendering = true` - without it, WinForms will not render Unicode PUA glyphs at all.
 
 
-![WinForms Quick Start](./img/winforms-quick-start.png)
+![WinForms Quick Start](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/winforms-quick-start.png)
 
 ```
 using IVSoftware.Portable;

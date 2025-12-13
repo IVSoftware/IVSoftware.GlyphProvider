@@ -5,7 +5,7 @@
 This example uses standard WPF `Button` controls.  
 The window defines an empty `WrapPanel`, and the `InitAsync` method fills it with glyph-bearing buttons at runtime.
 
-![WPF Font Viewer](./img/wpf-font-viewer.png)
+![WPF Font Viewer](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/wpf-font-viewer.png)
 
 
 The `Font Viewer` version adds the capability of switching between the available font archives using the combo box where providers of type `GlyphProvider` are added to `comboBoxConfig.Items`.

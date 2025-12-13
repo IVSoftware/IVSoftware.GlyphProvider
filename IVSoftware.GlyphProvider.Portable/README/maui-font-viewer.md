@@ -4,7 +4,7 @@
 
 This example uses standard MAUI `Button` controls. The XAML sets up an empty `FlexLayout`, and the `InitAsync` method flows iconic buttons into it at runtime with the `icon-basics` as the default.
 
-![MAUI Font Viewer](./img/maui-font-viewer.png)
+![MAUI Font Viewer](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/maui-font-viewer.png)
 
 ### XAML
 

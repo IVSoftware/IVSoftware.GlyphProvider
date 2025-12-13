@@ -1,4 +1,4 @@
-﻿![sponsoring](./IVSoftware.GlyphProvider.Portable/README/img/sponsoring.png)
+﻿![sponsoring](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/sponsoring.png)
 
 ## IVSoftware.GlyphProvider.Portable  [[GitHub](https://github.com/IVSoftware/IVSoftware.GlyphProvider.git)]
 
@@ -8,7 +8,7 @@ ___
 
 ## Quick Start - `icon-basics.ttf`
 
- ![icon-basics glyphs](./IVSoftware.GlyphProvider.Portable/README/img/icon-basics.png)
+ ![icon-basics glyphs](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/icon-basics.png)
 
 This package includes a small ready-made Fontello subset font. Its job is simply to give the examples something concrete to point at, though you're welcome to use it directly - it carries the same license as any Fontello font.
 
@@ -193,7 +193,7 @@ ___
 
 1. In your project, create the `Resources\Fonts` directory if it does not already exist. Locate and open the **content** folder inside the NuGet package, and copy the entire **icon-basics** folder into `Resources\Fonts`.
 
-![copy the icon-basics folder](./IVSoftware.GlyphProvider.Portable/README/img/copy-icon-basics-from-content.png)
+![copy the icon-basics folder](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/copy-icon-basics-from-content.png)
 
 2. Open the properties of `config.json` and set its Build Action to **Embedded Resource**. (Even in WPF this should be Embedded Resource, not Resource.)
 
@@ -211,9 +211,9 @@ These requirements are summarized in the table below:
 
 | Platform   | Build Action | Notes |
 |------------|--------------------------|-------|
-| [**MAUI**](./IVSoftware.GlyphProvider.Portable/README/maui-quick-start.md)     | `MauiFont`               | In `MauiProgram.cs`, make an `AddFont` entry in the `ConfigureFonts` block following the pattern shown e.g. for `OpenSans`. |
-| [**WinForms**](./IVSoftware.GlyphProvider.Portable/README/winforms-quick-start.md)  | `EmbeddedResource`       | Use the platform-specific NuGet `IVSoftware.GlyphProvider.WinForms`, which implements the required `System.Drawing.PrivateFontCollection` for custom fonts. |
-| [**WPF**](./IVSoftware.GlyphProvider.Portable/README/wpf-quick-start.md)       | `Resource`               | XAML can reference `FontFamily` with `pack://application:,,,/#YourFont` syntax, or do it in code-behind as shown in the full example below. |
+| [**MAUI**](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/maui-quick-start.md)     | `MauiFont`               | In `MauiProgram.cs`, make an `AddFont` entry in the `ConfigureFonts` block following the pattern shown e.g. for `OpenSans`. |
+| [**WinForms**](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/winforms-quick-start.md)  | `EmbeddedResource`       | Use the platform-specific NuGet `IVSoftware.GlyphProvider.WinForms`, which implements the required `System.Drawing.PrivateFontCollection` for custom fonts. |
+| [**WPF**](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/wpf-quick-start.md)       | `Resource`               | XAML can reference `FontFamily` with `pack://application:,,,/#YourFont` syntax, or do it in code-behind as shown in the full example below. |
 
 ___
 
@@ -246,11 +246,11 @@ ___
 
 These samples show just a few lines of code and employ the built-in `GlyphProvider.IconBasics` enum to address the idiosyncrasies of the main platforms.
 
-[MAUI Quick Start](./IVSoftware.GlyphProvider.Portable/README/maui-quick-start.md) - Making sure to import the font in `MauiProgram.cs`
+[MAUI Quick Start](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/maui-quick-start.md) - Making sure to import the font in `MauiProgram.cs`
 
-[WinForms Quick Start](./IVSoftware.GlyphProvider.Portable/README/winforms-quick-start.md) - Using the platform-specific NuGet to abstract `System.Drawing.PrivateFontCollection`.
+[WinForms Quick Start](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/winforms-quick-start.md) - Using the platform-specific NuGet to abstract `System.Drawing.PrivateFontCollection`.
 
-[WPF Quick Start](./IVSoftware.GlyphProvider.Portable/README/wpf-quick-start.md) - How to succeed using the `pack` syntax in code-behind.
+[WPF Quick Start](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/wpf-quick-start.md) - How to succeed using the `pack` syntax in code-behind.
 
 ___
 
@@ -339,8 +339,8 @@ This set of demos brings all the pieces together:
 4. On windows builds, displays mouse-hover styling and a tool tip with the friendly glyph name.
 
 
-[MAUI Font Viewer](./IVSoftware.GlyphProvider.Portable/README/maui-font-viewer.md)
+[MAUI Font Viewer](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/maui-font-viewer.md)
 
-[WinForms Font Viewer](./IVSoftware.GlyphProvider.Portable/README/winforms-font-viewer.md)
+[WinForms Font Viewer](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/winforms-font-viewer.md)
 
-[WPF Font Viewer](./IVSoftware.GlyphProvider.Portable/README/wpf-font-viewer.md)
+[WPF Font Viewer](https://github.com/IVSoftware/IVSoftware.GlyphProvider/blob/master/IVSoftware.GlyphProvider.Portable/README/wpf-font-viewer.md)

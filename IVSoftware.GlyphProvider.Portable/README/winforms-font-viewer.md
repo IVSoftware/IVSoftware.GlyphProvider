@@ -5,7 +5,7 @@
 The designer sets up an empty `FlowLayoutPanel`. The `InitAsync` method populates it with iconic buttons at runtime. WinForms loads custom fonts through `System.Drawing.PrivateFontCollection` (handled automatically by the platform-specific NuGet package). Every glyph-bearing control must set `UseCompatibleTextRendering = true` - without it, WinForms will not render Unicode PUA glyphs at all.
 
 
-![WinForms Font Viewer](./img/winforms-font-viewer.png)
+![WinForms Font Viewer](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/winforms-font-viewer.png)
 
 The `Font Viewer` version adds the capability of switching between the available font archives using the combo box where providers of type `GlyphProvider` are added to `comboBoxConfig.Items`.
 

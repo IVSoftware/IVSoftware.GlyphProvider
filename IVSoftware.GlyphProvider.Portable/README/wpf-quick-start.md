@@ -5,7 +5,7 @@
 This example uses standard WPF `Button` controls.  
 The window defines an empty `WrapPanel`, and the `InitAsync` method fills it with glyph-bearing buttons at runtime.
 
-![WPF Quick Start](./img/wpf-quick-start.png)
+![WPF Quick Start](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/wpf-quick-start.png)
 
 ---
 
