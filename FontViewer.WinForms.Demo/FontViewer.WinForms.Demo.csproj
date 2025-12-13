@@ -23,6 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="*-*" />
+        <PackageReference Include="IVSoftware.GlyphProvider.WinForms" Version="1.0.0-alpha" />
 	</ItemGroup>
 </Project>

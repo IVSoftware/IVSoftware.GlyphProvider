@@ -19,12 +19,17 @@ The page defines a single `FlexLayout` which will be populated with glyph button
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="QuickStart.Maui.Demo.MainPage"
     Shell.NavBarIsVisible="False">
-
-    <FlexLayout 
-        x:Name="flexLayout" Grid.Row="1"
-        BackgroundColor="Azure"
-        Direction="Row" Wrap="Wrap" AlignContent="Start"
-        Margin="5" Padding="5"/>
+          
+    <ScrollView>
+        <FlexLayout
+            x:Name="flexLayout"
+            BackgroundColor="Azure"
+            Direction="Row"
+            Wrap="Wrap"
+            AlignContent="Start"
+            Margin="5"
+            Padding="5"/>
+    </ScrollView>
 </ContentPage>
 ```
 

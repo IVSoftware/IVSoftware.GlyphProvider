@@ -20,14 +20,16 @@
                     FontSize="12.5"/>
             </Grid>
         </Border>
-        <FlexLayout
-            x:Name="flexLayout"
-            BackgroundColor="Azure"
-            Grid.Row="1"
-            Direction="Row"
-            Wrap="Wrap"
-            AlignContent="Start"
-            Margin="5"
-            Padding="5"/>
+        <ScrollView
+            Grid.Row="1">
+            <FlexLayout
+                x:Name="flexLayout"
+                BackgroundColor="Azure"
+                Direction="Row"
+                Wrap="Wrap"
+                AlignContent="Start"
+                Margin="5"
+                Padding="5"/>
+        </ScrollView>
     </Grid>
 </ContentPage>
