@@ -35,7 +35,7 @@ public enum IconBasics
 }
 ```
 
-To put a finer point on it, the glyph is indexed by the *enum* member, and the enum *type* carries the font family information as well. Together, they describe the glyph fully: family + name.
+To put a finer point on it, the glyph is indexed by the enum *member*, and the enum *type* carries the font family information as well. Together, they describe the glyph fully: family + name.
 
 Next, a few examples to show the various ways this can be useful.
 ___
