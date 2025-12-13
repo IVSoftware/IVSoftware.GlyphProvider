@@ -40,7 +40,7 @@
 		<DebugType>embedded</DebugType>
 
 		<BaseVersion>1.0.0</BaseVersion>
-		<VersionPrefix>$(BaseVersion)-local3</VersionPrefix>
+		<VersionPrefix>$(BaseVersion)-alpha</VersionPrefix>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
