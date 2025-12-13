@@ -12,7 +12,7 @@ ___
 
 This package includes a small ready-made Fontello subset font. Its job is simply to give the examples something concrete to point at, though you're welcome to use it directly - it carries the same license as any Fontello font.
 
-> _If you're new to Fontello, it helps to know that this works both ways. You can upload/import a config.json file **to** the site to start a renamed font or to iterate on one you already have._
+> _If you're new to Fontello, it helps to know that `config.json` works both ways. You can upload/import it **to** the Fontello site to kick-start a renamed font or to iterate on one you already have._
 ___
 
 ## Features At A Glance
