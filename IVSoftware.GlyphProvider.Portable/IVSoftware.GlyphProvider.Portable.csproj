@@ -32,7 +32,7 @@ Initial prerelease including:
         <AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
         <DebugType>embedded</DebugType>
         <BaseVersion>1.0.0</BaseVersion>
-        <VersionPrefix>$(BaseVersion)-alpha</VersionPrefix>
+        <VersionPrefix>$(BaseVersion)-rc1</VersionPrefix>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -59,8 +59,8 @@ Initial prerelease including:
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IVSoftware.Portable.Common" Version="*-*" />
-        <PackageReference Include="IVSoftware.Portable.Collections" Version="*-*" />
+        <PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+        <PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-alpha01" />
         <PackageReference Include="Newtonsoft.Json" Version="*" />
     </ItemGroup>
 

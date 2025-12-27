@@ -40,7 +40,7 @@
 		<DebugType>embedded</DebugType>
 
 		<BaseVersion>1.0.0</BaseVersion>
-		<VersionPrefix>$(BaseVersion)-alpha</VersionPrefix>
+		<VersionPrefix>$(BaseVersion)-rc1</VersionPrefix>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -67,7 +67,7 @@
 
 	<!-- Always needed -->
 	<ItemGroup>
-		<PackageReference Include="IVSoftware.Portable.Common" Version="*-*" />
+		<PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
 	</ItemGroup>
 
 	<!-- Debug uses local project reference -->
@@ -77,7 +77,7 @@
 
 	<!-- Release uses packaged dependency -->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-alpha" />
+		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-*" />
 	</ItemGroup>
 
 	<ItemGroup>
