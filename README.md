@@ -409,6 +409,8 @@ At first glance, the attribute syntax may look awkward. Why not something simple
 ```
 public enum EditingCommands
 {
+     // Tempting, but illegal!
+     // Attribute ctor arguments cannot accept Enum values generically.
     [Glyph(IconBasics.Add)]
     Add,
 }
