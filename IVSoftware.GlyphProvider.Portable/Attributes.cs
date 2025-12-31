@@ -9,6 +9,14 @@ namespace IVSoftware.Portable
         public GlyphAttribute() { }
         public GlyphAttribute(string key) => Key = key;
         
+        /// <summary>
+        /// Use {Type}{Member} to access.
+        /// </summary>
+        /// <remarks>
+        /// An attribute constructor can have a *specific* enum type,
+        /// but it's not legal to have an arg of class Enum.So, to 
+        /// generalize it, this might be a tad clumsy but it works.
+        /// </remarks>
         public GlyphAttribute(Type stdEnumType, string key)
         {
             if (!stdEnumType.IsEnum)
