@@ -375,6 +375,7 @@ public void Configure<T>() where T : struct, Enum
         {
             this.ThrowHard<InvalidOperationException>(
                 $@"Expecting member attribute e.g. [Glyph(typeof(IconBasics), ""Add"")]");
+            return;
         }
 
         Grid.Add(button, column: i);
