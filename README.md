@@ -116,9 +116,12 @@ ___
 
 ### 3. Button with Bound Glyph Property
 
+ ![Basic glyph button](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/basic-glyph-button.png)
+
 Making a lightweight subclass eliminates both of those steps: it takes an enum value, sets the correct font family, and builds the final `Text` for you. The result is a `Button` you can bind directly from XAML without any serious contemplation of escape codes at all.
 
 ```
+
 public class GlyphButton : Button
 {
     public static readonly BindableProperty StdIconNameProperty =
@@ -141,6 +144,27 @@ public class GlyphButton : Button
         {
             var button = (GlyphButton)bindable;
             button.FontFamily = icon.ToCssFontName();
+            button.Text = icon.ToGlyph();
+        }
+    }
+}
+```
+
+
+#### Simple Combination of Glyph + Text
+
+ ![Glyph Button with Text](https://raw.githubusercontent.com/IVSoftware/IVSoftware.GlyphProvider/master/IVSoftware.GlyphProvider.Portable/README/img/try-update-iconic-text-detail.png)
+
+```
+    static void OnStdIconChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (newValue is Enum icon)
+        {
+            var button = (GlyphButton)bindable;
+            button.FontFamily = icon.ToCssFontName();
+
+            // Use the Text binding to heuristically combine 
+            // glyph + text without having to subclass Button.
             if (button.Text.TryUpdateIconicText(icon, out var textFTR, spacing: 4))
             {
                 if (button.BindingContext?.GetType().GetProperty(nameof(Text)) is { } pi)
@@ -155,7 +179,6 @@ public class GlyphButton : Button
             }
         }
     }
-}
 ```
 
 #### XAML
