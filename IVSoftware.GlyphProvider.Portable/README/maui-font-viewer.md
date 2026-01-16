@@ -71,7 +71,7 @@ namespace FontViewer.Maui.Demo
 
             foreach (var icon in Enum.GetValues<GlyphProvider.IconBasics>())
             {
-                flexLayout.Children.Add(new GlyphButton { StdIconName = icon, });
+                flexLayout.Children.Add(new GlyphButton { OPID = icon, });
             }
 
             // GlyphProvider doesn't enumerate its own provider for GlyphProvider.IconBasics unless
@@ -102,7 +102,7 @@ namespace FontViewer.Maui.Demo
                     // If an enum type has been defined for provider, use it.
                     foreach (Enum icon in Enum.GetValues(stdIconType))
                     {
-                        flexLayout.Children.Add(new GlyphButton { StdIconName = icon, });
+                        flexLayout.Children.Add(new GlyphButton { OPID = icon, });
                     }
                 }
                 else
@@ -163,7 +163,7 @@ namespace FontViewer.Maui.Demo
                     native.PointerEntered += (_, __) => button.PointerInBounds(true);
                     native.PointerExited += (_, __) => button.PointerInBounds(false);
 
-                    if (button.StdIconName is { } icon)
+                    if (button.OPID is { } icon)
                     {
                         var tooltip = new Microsoft.UI.Xaml.Controls.ToolTip
                         {

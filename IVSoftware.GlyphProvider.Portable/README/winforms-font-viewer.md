@@ -27,7 +27,7 @@ public partial class MainForm : Form
             var font = new Font(fontFamily, 12.5F);
             foreach (var icon in Enum.GetValues<GlyphProvider.IconBasics>())
             {
-                flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, StdIconName = icon});
+                flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, OPID = icon});
             }
         }
 
@@ -65,7 +65,7 @@ public partial class MainForm : Form
                 // If an enum type has been defined for provider, use it.
                 foreach (Enum icon in Enum.GetValues(stdIconType))
                 {
-                    flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, StdIconName = icon });
+                    flowLayoutPanel.Controls.Add(new GlyphButton { Font = font, OPID = icon });
                 }
             }
             else

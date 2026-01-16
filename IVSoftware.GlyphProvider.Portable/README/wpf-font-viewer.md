@@ -109,7 +109,7 @@ namespace FontViewer.Wpf.Demo
 
             foreach (var icon in Enum.GetValues<GlyphProvider.IconBasics>())
             {
-                WrapPanelIcons.Children.Add(new GlyphButton { StdIconName = icon, });
+                WrapPanelIcons.Children.Add(new GlyphButton { OPID = icon, });
             }
 
             ComboBoxConfig.SelectedIndex = ComboBoxConfig.Items.IndexOf(iconBasicsProvider);
@@ -136,7 +136,7 @@ namespace FontViewer.Wpf.Demo
                     // If an enum type has been defined for provider, use it.
                     foreach (Enum icon in Enum.GetValues(stdIconType))
                     {
-                        WrapPanelIcons.Children.Add(new GlyphButton { StdIconName = icon, });
+                        WrapPanelIcons.Children.Add(new GlyphButton { OPID = icon, });
                     }
                 }
                 else

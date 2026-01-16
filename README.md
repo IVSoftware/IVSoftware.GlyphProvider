@@ -126,13 +126,13 @@ public class GlyphButton : Button
 {
     public static readonly BindableProperty StdIconNameProperty =
         BindableProperty.Create(
-            nameof(StdIconName),
+            nameof(OPID),
             typeof(Enum),
             typeof(GlyphButton),
             default(Enum),
             propertyChanged: OnStdIconChanged);
 
-    public Enum? StdIconName
+    public Enum? OPID
     {
         get => (Enum?)GetValue(StdIconNameProperty);
         set => SetValue(StdIconNameProperty, value);
@@ -189,7 +189,7 @@ What started out as a cryptic `Text="&#xE80E"` is now an IntelliSense-backed ref
 <local:GlyphButton
     x:Name="CounterBtn"
     Text="Click me" 
-    StdIconName="{x:Static gp:IconBasics.HelpCircledAlt}"
+    OPID="{x:Static gp:IconBasics.HelpCircledAlt}"
     SemanticProperties.Hint="Counts the number of times you click"
     Clicked="OnCounterClicked"
     HorizontalOptions="Fill"
@@ -396,7 +396,7 @@ public void Configure<T>() where T : struct, Enum
 
         if (id.GetCustomAttribute<GlyphAttribute>()?.StdEnum is { } icon)
         {
-            button.StdIconName = icon;
+            button.OPID = icon;
         }
         else
         {
