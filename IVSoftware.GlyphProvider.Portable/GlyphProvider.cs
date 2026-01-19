@@ -187,6 +187,9 @@ namespace IVSoftware.Portable
                     _glyphLookup = new();
                     foreach (var glyph in Glyphs)
                     {
+#if DEBUG
+                        Debug.WriteLine($"260119 {glyph.Css}");
+#endif
                         _glyphLookup[glyph.Css] = glyph; 
                     }
                 }
@@ -413,7 +416,10 @@ namespace IVSoftware.Portable
                     if (stdEnumType.IsEnum)
                     {
                         var key = stdEnumType.ToGlyphProviderKey();
-                        //if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
+
+                        // if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
+                        // {...} Depending on how the font is imported.
+
                         if(key == "IVSoftware.GlyphProvider.Portable.icon-basics")
                         {
                             preview = IconBasicsProvider;
@@ -421,6 +427,13 @@ namespace IVSoftware.Portable
                         else
                         {
                             preview = this[key];
+                            if (preview is null)
+                            {
+                                var msg =
+                                    "ADVISORY: The enum 'key' and the config.json file MUST reside in the same assembly.";
+                                Debug.Fail(msg);
+                                this.ThrowSoft<KeyNotFoundException>(msg);
+                            }
                         }
                         return preview;
                     }
@@ -428,7 +441,26 @@ namespace IVSoftware.Portable
                 }
             }
         }
-        public static GlyphProviderDictionary Providers { get; } = new ();
+        public static GlyphProviderDictionary Providers
+        {
+            get
+            {
+                if (_providers is null)
+                {
+                    _providers = new GlyphProviderDictionary();
+                    _providers.CollectionChanging += (sender, e) =>
+                    {
+#if DEBUG
+                        var msg = $"{e.Action} {JsonConvert.SerializeObject(e.NewItems, Formatting.Indented)}";
+                        Debug.WriteLine(msg);
+                        _providers.Advisory(msg);
+#endif
+                    };
+                }
+                return _providers;
+            }
+        }
+        static GlyphProviderDictionary? _providers = null;
 
         private static GlyphProvider IconBasicsProvider
         {
