@@ -32,7 +32,8 @@ Initial prerelease including:
         <AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
         <DebugType>embedded</DebugType>
         <BaseVersion>1.0.0</BaseVersion>
-        <VersionPrefix>$(BaseVersion)-rc1</VersionPrefix>
+		<!--RTR @ 1.0.0-->
+        <VersionPrefix>$(BaseVersion)</VersionPrefix>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">

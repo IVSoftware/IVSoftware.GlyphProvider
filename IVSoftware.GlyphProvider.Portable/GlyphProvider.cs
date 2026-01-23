@@ -289,31 +289,31 @@ namespace IVSoftware.Portable
         {
             get
             {
-                if (_appDomainTypeCache is null)
+                if (_appDomainAssemblyCache is null)
                 {
-                    _appDomainTypeCache = new();
+                    _appDomainAssemblyCache = new();
                     foreach(var asm in AppDomain.CurrentDomain
                         .GetAssemblies()
                         .Where(_ => AllowASM(_)))
                     {
-                        if(_appDomainTypeCache.Add(asm))
+                        if(_appDomainAssemblyCache.Add(asm))
                         {
                             EnumerateASM(asm);
                         }
                     }
                     AppDomain.CurrentDomain.AssemblyLoad += (sender, e) =>
                     {
-                        if (AllowASM(e.LoadedAssembly) && _appDomainTypeCache.Add(e.LoadedAssembly))
+                        if (AllowASM(e.LoadedAssembly) && _appDomainAssemblyCache.Add(e.LoadedAssembly))
                         {
                             EnumerateASM(e.LoadedAssembly);
                         }
                     };
                     _ready.SetResult();
                 }
-                return new(_appDomainTypeCache.ToList());
+                return new(_appDomainAssemblyCache.ToList());
             }
         }
-        static HashSet<Assembly> _appDomainTypeCache = null!;
+        static HashSet<Assembly> _appDomainAssemblyCache = null!;
         static TaskCompletionSource _ready = new TaskCompletionSource();
 
         internal static bool AllowASM(Assembly asm)
@@ -412,6 +412,11 @@ namespace IVSoftware.Portable
             {
                 get
                 {
+                    // Best case is that the cache has been boosted
+                    // beforehand, but if we lose the race then
+                    // perform the enumeration synchronously now.
+                    _ = AppDomainAssemblyCache;
+
                     GlyphProvider? preview = null;
                     if (stdEnumType.IsEnum)
                     {
@@ -450,8 +455,8 @@ namespace IVSoftware.Portable
                     _providers = new GlyphProviderDictionary();
                     _providers.CollectionChanging += (sender, e) =>
                     {
-#if DEBUG
-                        var msg = $"{e.Action} {JsonConvert.SerializeObject(e.NewItems, Formatting.Indented)}";
+#if DEBUG && false
+                        var msg = $"260122.A: {e.Action} {JsonConvert.SerializeObject(e.NewItems, Formatting.Indented)}";
                         Debug.WriteLine(msg);
                         _providers.Advisory(msg);
 #endif
