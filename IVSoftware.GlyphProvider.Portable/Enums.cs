@@ -1,9 +1,9 @@
 ﻿namespace IVSoftware.Portable
 {
-    public enum LayoutOrientation
-    {
-        Horizontal,
+    //public enum LayoutOrientation
+    //{
+    //    Horizontal,
 
-        Vertical,
-    }
+    //    Vertical,
+    //}
 }

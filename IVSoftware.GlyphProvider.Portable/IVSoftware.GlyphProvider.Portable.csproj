@@ -61,13 +61,16 @@ Initial prerelease including:
 
     <ItemGroup>
         <PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
-        <PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-alpha01" />
         <PackageReference Include="IVSoftware.Portable.Disposable" Version="2.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="*" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="README\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Portable\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections.csproj" />
     </ItemGroup>
 
 </Project>

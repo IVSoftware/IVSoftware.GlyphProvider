@@ -1,8 +1,6 @@
 ﻿using IVSoftware.Portable.Common.Exceptions;
-using System.IO;
 using System.Reflection;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace IVSoftware.Portable
 {
@@ -31,8 +29,13 @@ namespace IVSoftware.Portable
         /// Return the css font family name specified in the [CssNameAttribute] or
         /// fall back to the name of the enum type.
         /// </summary>
+        /// <remarks>
+        /// BugFix in Release 1.0.1
+        /// - was enumType.GetType().Name
+        /// - now enumType.Name
+        /// </remarks>
         public static string ToCssFontName(this Type enumType)
-            => enumType.GetCustomAttribute<CssNameAttribute>()?.Name ?? enumType.GetType().Name.ToString();
+            => enumType.GetCustomAttribute<CssNameAttribute>()?.Name ?? enumType.Name.ToString();
 
         /// <summary>
         /// Retrieve the JSON-serialized node for this enum value in config.json.
