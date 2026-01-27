@@ -69,8 +69,12 @@ Initial prerelease including:
       <Folder Include="README\" />
     </ItemGroup>
 
-    <ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
       <ProjectReference Include="..\..\Portable\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections.csproj" />
-    </ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-alpha01" />
+	</ItemGroup>
 
 </Project>
