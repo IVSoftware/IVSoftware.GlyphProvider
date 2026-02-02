@@ -408,7 +408,10 @@ namespace IVSoftware.Portable
         public class GlyphProviderDictionary : TolerantDictionary<string, GlyphProvider> 
         {
             [Indexer]
-            public GlyphProvider? this[Type stdEnumType]
+            public GlyphProvider? this[Type stdEnumType] => this[stdEnumType, @throw: false];
+
+            [Indexer]
+            public GlyphProvider? this[Type stdEnumType, bool? @throw]
             {
                 get
                 {
@@ -425,7 +428,7 @@ namespace IVSoftware.Portable
                         // if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
                         // {...} Depending on how the font is imported.
 
-                        if(key == "IVSoftware.GlyphProvider.Portable.icon-basics")
+                        if (key == "IVSoftware.GlyphProvider.Portable.icon-basics")
                         {
                             preview = IconBasicsProvider;
                         }
@@ -434,10 +437,36 @@ namespace IVSoftware.Portable
                             preview = this[key];
                             if (preview is null)
                             {
-                                var msg =
-                                    "ADVISORY: The enum 'key' and the config.json file MUST reside in the same assembly.";
-                                Debug.Fail(msg);
-                                this.ThrowSoft<KeyNotFoundException>(msg);
+                                // This is a helpful reminder for both IFDs and EUDs!
+                                // The font, and the indexing of the font's glyphs, are
+                                // separate concerns. But as far as indexing is concerned:
+                                // - If the enum is in one assy and the config.json is in
+                                //   another, then indexing won't work. 
+                                // - This is the intended design and avoids naming collisions
+                                //   that might otherwise occur.
+                                // - This isn't to be confused with the font itself, which
+                                //   follows normal platform rules for importing.
+                                var msg = "ADVISORY: The enum 'key' and the config.json file MUST reside in the same assembly.";
+                                switch (@throw)
+                                {
+                                    case null:
+                                        // Explicitly disable the System.Diagnostics.Debug break
+                                        break;
+                                    // [Default]
+                                    case false:
+                                        // System.Diagnostics.Debug break + advisory client throw + option to Escalate.
+                                        Debug.Fail(msg);
+                                        this.ThrowSoft<KeyNotFoundException>(msg, @throw: @throw);
+                                        break;
+                                    case true:
+                                        // System.Diagnostics.Debug break + hard client throw + option to Handle.
+                                        Debug.Fail(msg);
+                                        this.ThrowHard<KeyNotFoundException>(msg, @throw: @throw);
+                                        break;
+                                }
+                            }
+                            if (preview is null)
+                            {
                             }
                         }
                         return preview;
