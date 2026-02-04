@@ -6,30 +6,27 @@ namespace IVSoftware.Portable
 {
     public static class GlyphProviderExtensions
     {
-        /// <summary>
-        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
-        /// </summary>
-        public static string? ToGlyph(this Enum stdGlyph)
-            => ToGlyph(stdGlyph, GlyphFormat.Unicode, false);
+        public static bool CanResolveGlyphProvider(this Enum stdGlyph, bool useCache = true)
+        {
+            var type = stdGlyph.GetType();
+            if(useCache && _cache.TryGetValue(type, out bool canResolve))
+            {
+                return canResolve;
+            }
+            canResolve = GlyphProvider.Providers[type, @throw: null] is not null;
+            if(useCache)
+            {
+                _cache[type] = canResolve;
+            }
+            return canResolve;
+        }
+        private static Dictionary<Type, bool> _cache = new();
 
         /// <summary>
         /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
         /// </summary>
-        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format)
-            => ToGlyph(stdGlyph, format, false);
-
-        /// <summary>
-        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
-        /// </summary>
-        public static string? ToGlyph(this Enum stdGlyph, bool? @throw)
-            => ToGlyph(stdGlyph, GlyphFormat.Unicode, @throw);
-
-        /// <summary>
-        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
-        /// </summary>
-        [Canonical]
-        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format, bool? @throw)
-            => GlyphProvider.Providers[stdGlyph.GetType(), @throw]?[stdGlyph, format];
+        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format = GlyphFormat.Unicode)
+            => GlyphProvider.Providers[stdGlyph.GetType()]?[stdGlyph, format];
 
         /// <summary>
         /// Reverse lookup the provider key.
