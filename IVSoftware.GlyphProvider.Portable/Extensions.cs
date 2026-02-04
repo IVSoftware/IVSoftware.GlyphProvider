@@ -6,19 +6,26 @@ namespace IVSoftware.Portable
 {
     public static class GlyphProviderExtensions
     {
-        public static bool CanResolveGlyphProvider(this Enum stdGlyph, bool useCache = true)
+        public static bool CanResolveGlyphProvider(this Enum? stdGlyph, bool useCache = true)
         {
-            var type = stdGlyph.GetType();
-            if(useCache && _cache.TryGetValue(type, out bool canResolve))
+            if (stdGlyph is null)
             {
+                return false;
+            }
+            else
+            {
+                var type = stdGlyph.GetType();
+                if (useCache && _cache.TryGetValue(type, out bool canResolve))
+                {
+                    return canResolve;
+                }
+                canResolve = GlyphProvider.Providers[type, @throw: null] is not null;
+                if (useCache)
+                {
+                    _cache[type] = canResolve;
+                }
                 return canResolve;
             }
-            canResolve = GlyphProvider.Providers[type, @throw: null] is not null;
-            if(useCache)
-            {
-                _cache[type] = canResolve;
-            }
-            return canResolve;
         }
         private static Dictionary<Type, bool> _cache = new();
 
