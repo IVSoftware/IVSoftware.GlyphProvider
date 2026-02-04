@@ -9,8 +9,27 @@ namespace IVSoftware.Portable
         /// <summary>
         /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
         /// </summary>
-        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format = GlyphFormat.Unicode)
-            => GlyphProvider.Providers[stdGlyph.GetType()]?[stdGlyph, format];
+        public static string? ToGlyph(this Enum stdGlyph)
+            => ToGlyph(stdGlyph, GlyphFormat.Unicode, false);
+
+        /// <summary>
+        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
+        /// </summary>
+        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format)
+            => ToGlyph(stdGlyph, format, false);
+
+        /// <summary>
+        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
+        /// </summary>
+        public static string? ToGlyph(this Enum stdGlyph, bool? @throw)
+            => ToGlyph(stdGlyph, GlyphFormat.Unicode, @throw);
+
+        /// <summary>
+        /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
+        /// </summary>
+        [Canonical]
+        public static string? ToGlyph(this Enum stdGlyph, GlyphFormat format, bool? @throw)
+            => GlyphProvider.Providers[stdGlyph.GetType(), @throw]?[stdGlyph, format];
 
         /// <summary>
         /// Reverse lookup the provider key.
