@@ -8,26 +8,46 @@ namespace IVSoftware.Portable
     {
         public static bool CanResolveGlyphProvider(this Enum? stdGlyph, bool useCache = true)
         {
-            if (stdGlyph is null)
+            if (stdGlyph.GetGlyphType() is { } glyphType)
             {
-                return false;
-            }
-            else
-            {
-                var type = stdGlyph.GetType();
-                if (useCache && _cache.TryGetValue(type, out bool canResolve))
+                if (useCache && _cache.TryGetValue(glyphType, out bool canResolve))
                 {
                     return canResolve;
                 }
-                canResolve = GlyphProvider.Providers[type, @throw: null] is not null;
+                canResolve = GlyphProvider.Providers[glyphType, @throw: null] is not null;
                 if (useCache)
                 {
-                    _cache[type] = canResolve;
+                    _cache[glyphType] = canResolve;
                 }
                 return canResolve;
             }
+            else
+            {
+                return false;
+            }
         }
         private static Dictionary<Type, bool> _cache = new();
+
+        public static Type? GetGlyphType(this Enum? stdGlyph)
+        {
+            if (stdGlyph is null)
+            {
+                return null;
+            }
+            else
+            {
+                Type? preview;
+                if (stdGlyph.GetGlyphAttribute() is { } attr)
+                {
+                    preview = attr.StdEnum?.GetType();
+                }
+                else
+                {
+                    preview = stdGlyph.GetType();
+                }
+                return preview;
+            }
+        }
 
         /// <summary>
         /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
