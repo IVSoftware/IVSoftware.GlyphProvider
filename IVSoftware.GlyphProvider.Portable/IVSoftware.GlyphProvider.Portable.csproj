@@ -60,7 +60,7 @@ Initial prerelease including:
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+        <PackageReference Include="IVSoftware.Portable.Common" Version="1.0.1-beta" />
         <PackageReference Include="IVSoftware.Portable.Disposable" Version="2.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="*" />
     </ItemGroup>
