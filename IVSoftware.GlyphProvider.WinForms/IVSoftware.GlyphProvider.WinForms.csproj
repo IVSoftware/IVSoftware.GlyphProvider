@@ -67,7 +67,7 @@
 
 	<!-- Always needed -->
 	<ItemGroup>
-		<PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+		<PackageReference Include="IVSoftware.Portable.Common" Version="1.0.1-beta" />
 	</ItemGroup>
 
 	<!-- Debug uses local project reference -->
