@@ -7,12 +7,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<RootNamespace></RootNamespace>
+		<AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
+		<SignAssembly>true</SignAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Resource Include="Resources\Fonts\icon-basics\font\icon-basics.ttf" />
 		<EmbeddedResource Include="Resources\Fonts\icon-media-control\config.json" />
 		<Resource Include="Resources\Fonts\icon-media-control\font\icon-media-control.ttf" />
+		<PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-alpha01" />
 	</ItemGroup>
 	
 	<!-- Debug uses local project references -->

@@ -1,6 +1,8 @@
-﻿using IVSoftware.Portable.Collections.Dictionaries;
+﻿using IVSoftware.Portable.Common.Attributes;
 using IVSoftware.Portable.Common.Exceptions;
+using IVSoftware.Portable.Internal;
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -63,7 +65,7 @@ namespace IVSoftware.Portable
                     css = stdEnum.ToString();
                 }
                 string? cMe = null;
-                if(GlyphLookup.TryGetValue(css, out var glyph))
+                if(GlyphLookup.TryGetValue(css, out var glyph) && glyph is not null)
                 {
                     cMe = FormatCode(glyph.Code, format);
                 }
@@ -105,7 +107,10 @@ namespace IVSoftware.Portable
 
                 if (exactMatches.Count == 1)
                 {
-                    code = GlyphLookup[exactMatches[0]].Code;
+                    if (GlyphLookup[exactMatches[0]] is { } glyph)
+                    {
+                        code = glyph.Code;
+                    }
                 }
                 else if (exactMatches.Count > 1)
                 {
@@ -122,7 +127,10 @@ namespace IVSoftware.Portable
 
                     if (partialMatches.Count == 1)
                     {
-                        code = GlyphLookup[partialMatches[0]].Code;
+                        if (GlyphLookup[partialMatches[0]] is { } glyph)
+                        {
+                            code = glyph.Code;
+                        }
                     }
                     else
                     {
@@ -178,7 +186,7 @@ namespace IVSoftware.Portable
 
 
         [JsonIgnore]
-        public TolerantDictionary<string, Glyph> GlyphLookup
+        internal TolerantDictionary<string, Glyph> GlyphLookup
         {
             get
             {
@@ -289,31 +297,31 @@ namespace IVSoftware.Portable
         {
             get
             {
-                if (_appDomainTypeCache is null)
+                if (_appDomainAssemblyCache is null)
                 {
-                    _appDomainTypeCache = new();
+                    _appDomainAssemblyCache = new();
                     foreach(var asm in AppDomain.CurrentDomain
                         .GetAssemblies()
                         .Where(_ => AllowASM(_)))
                     {
-                        if(_appDomainTypeCache.Add(asm))
+                        if(_appDomainAssemblyCache.Add(asm))
                         {
                             EnumerateASM(asm);
                         }
                     }
                     AppDomain.CurrentDomain.AssemblyLoad += (sender, e) =>
                     {
-                        if (AllowASM(e.LoadedAssembly) && _appDomainTypeCache.Add(e.LoadedAssembly))
+                        if (AllowASM(e.LoadedAssembly) && _appDomainAssemblyCache.Add(e.LoadedAssembly))
                         {
                             EnumerateASM(e.LoadedAssembly);
                         }
                     };
                     _ready.SetResult();
                 }
-                return new(_appDomainTypeCache.ToList());
+                return new(_appDomainAssemblyCache.ToList());
             }
         }
-        static HashSet<Assembly> _appDomainTypeCache = null!;
+        static HashSet<Assembly> _appDomainAssemblyCache = null!;
         static TaskCompletionSource _ready = new TaskCompletionSource();
 
         internal static bool AllowASM(Assembly asm)
@@ -404,14 +412,49 @@ namespace IVSoftware.Portable
         public static ReadOnlyDictionary<string, GlyphProvider> FontFamilies
             => new ReadOnlyDictionary<string, GlyphProvider>(FontFamilyLookupProvider.GetFontFamilies());
 #endif
+        [JsonDictionary]
         [DebuggerDisplay("Count={Count}")]
-        public class GlyphProviderDictionary : TolerantDictionary<string, GlyphProvider> 
+        public class GlyphProviderDictionary : IReadOnlyDictionary<string, GlyphProvider>
         {
+            readonly TolerantDictionary<string, GlyphProvider> _base = new();
+
+            public int Count => _base.AsReadOnly.Count;
+            public IEnumerable<string> Keys => _base.AsReadOnly.Keys;
+            public IEnumerable<GlyphProvider> Values => _base.AsReadOnly.Values;
+
             [Indexer]
-            public GlyphProvider? this[Type stdEnumType]
+            public GlyphProvider? this[string key]
+            {
+                get => _base[key];
+                set => _base[key] = value;
+            }
+
+            public bool ContainsKey(string key) => _base.AsReadOnly.ContainsKey(key);
+
+            public bool TryGetValue(string key, out GlyphProvider value)
+            {
+                if (_base.TryGetValue(key, out var preview) && preview is not null)
+                {
+                    value = preview;
+                    return true;
+                }
+                value = null!;
+                return false;
+            }
+
+            [Indexer]
+            public GlyphProvider? this[Type stdEnumType] => this[stdEnumType, @throw: false];
+
+            [Indexer]
+            public GlyphProvider? this[Type stdEnumType, bool? @throw]
             {
                 get
                 {
+                    // Best case is that the cache has been boosted
+                    // beforehand, but if we lose the race then
+                    // perform the enumeration synchronously now.
+                    _ = AppDomainAssemblyCache;
+
                     GlyphProvider? preview = null;
                     if (stdEnumType.IsEnum)
                     {
@@ -420,19 +463,45 @@ namespace IVSoftware.Portable
                         // if(key == "IVSoftware.GlyphProvider.Portable.IconBasics")
                         // {...} Depending on how the font is imported.
 
-                        if(key == "IVSoftware.GlyphProvider.Portable.icon-basics")
+                        if (key == "IVSoftware.GlyphProvider.Portable.icon-basics")
                         {
                             preview = IconBasicsProvider;
                         }
                         else
                         {
-                            preview = this[key];
+                            preview = _base[key];
                             if (preview is null)
                             {
-                                var msg =
-                                    "ADVISORY: The enum 'key' and the config.json file MUST reside in the same assembly.";
-                                Debug.Fail(msg);
-                                this.ThrowSoft<KeyNotFoundException>(msg);
+                                // This is a helpful reminder for both IFDs and EUDs!
+                                // The font, and the indexing of the font's glyphs, are
+                                // separate concerns. But as far as indexing is concerned:
+                                // - If the enum is in one assy and the config.json is in
+                                //   another, then indexing won't work. 
+                                // - This is the intended design and avoids naming collisions
+                                //   that might otherwise occur.
+                                // - This isn't to be confused with the font itself, which
+                                //   follows normal platform rules for importing.
+                                var msg = "ADVISORY: The enum 'key' and the config.json file MUST reside in the same assembly.";
+                                switch (@throw)
+                                {
+                                    case null:
+                                        // Explicitly disable the System.Diagnostics.Debug break
+                                        break;
+                                    // [Default]
+                                    case false:
+                                        // System.Diagnostics.Debug break + advisory client throw + option to Escalate.
+                                        Debug.Fail(msg);
+                                        this.ThrowSoft<KeyNotFoundException>(msg, @throw: @throw);
+                                        break;
+                                    case true:
+                                        // System.Diagnostics.Debug break + hard client throw + option to Handle.
+                                        Debug.Fail(msg);
+                                        this.ThrowHard<KeyNotFoundException>(msg, @throw: @throw);
+                                        break;
+                                }
+                            }
+                            if (preview is null)
+                            {
                             }
                         }
                         return preview;
@@ -440,6 +509,17 @@ namespace IVSoftware.Portable
                     return preview;
                 }
             }
+
+            internal event EventHandler<CollectionChangingEventArgs>? CollectionChanging
+            {
+                add => _base.CollectionChanging += value;
+                remove => _base.CollectionChanging -= value;
+            }
+
+            public IEnumerator<KeyValuePair<string, GlyphProvider>> GetEnumerator()
+                => _base.AsReadOnly.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
         public static GlyphProviderDictionary Providers
         {
@@ -450,8 +530,8 @@ namespace IVSoftware.Portable
                     _providers = new GlyphProviderDictionary();
                     _providers.CollectionChanging += (sender, e) =>
                     {
-#if DEBUG
-                        var msg = $"{e.Action} {JsonConvert.SerializeObject(e.NewItems, Formatting.Indented)}";
+#if DEBUG && false
+                        var msg = $"260122.A: {e.Action} {JsonConvert.SerializeObject(e.NewItems, Formatting.Indented)}";
                         Debug.WriteLine(msg);
                         _providers.Advisory(msg);
 #endif

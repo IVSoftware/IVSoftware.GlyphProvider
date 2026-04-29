@@ -6,6 +6,9 @@ namespace QuickStart.Maui.Demo
     {
         public static MauiApp CreateMauiApp()
         {
+            StartupDiagnostics.RegisterGlobalExceptionHooks();
+            StartupDiagnostics.Log("CreateMauiApp: begin");
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -20,7 +23,9 @@ namespace QuickStart.Maui.Demo
     		builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+            StartupDiagnostics.Log("CreateMauiApp: end");
+            return app;
         }
     }
 }

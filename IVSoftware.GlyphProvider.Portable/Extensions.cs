@@ -1,13 +1,55 @@
-﻿using IVSoftware.Portable.Common.Exceptions;
-using System.IO;
+﻿using IVSoftware.Portable.Common.Attributes;
+using IVSoftware.Portable.Common.Exceptions;
 using System.Reflection;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace IVSoftware.Portable
 {
     public static class GlyphProviderExtensions
     {
+        public static bool CanResolveGlyphProvider(this Enum? stdGlyph, bool useCache = true)
+        {
+            if (stdGlyph.GetGlyphType() is { } glyphType)
+            {
+                if (useCache && _cache.TryGetValue(glyphType, out bool canResolve))
+                {
+                    return canResolve;
+                }
+                canResolve = GlyphProvider.Providers[glyphType, @throw: null] is not null;
+                if (useCache)
+                {
+                    _cache[glyphType] = canResolve;
+                }
+                return canResolve;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private static Dictionary<Type, bool> _cache = new();
+
+        public static Type? GetGlyphType(this Enum? stdGlyph)
+        {
+            if (stdGlyph is null)
+            {
+                return null;
+            }
+            else
+            {
+                Type? preview;
+                if (stdGlyph.GetGlyphAttribute() is { } attr)
+                {
+                    preview = attr.StdEnum?.GetType();
+                }
+                else
+                {
+                    preview = stdGlyph.GetType();
+                }
+                return preview;
+            }
+        }
+
         /// <summary>
         /// Return a glyph (or a cosmetic representation of a glyph) in the specified format.
         /// </summary>
@@ -31,8 +73,13 @@ namespace IVSoftware.Portable
         /// Return the css font family name specified in the [CssNameAttribute] or
         /// fall back to the name of the enum type.
         /// </summary>
+        /// <remarks>
+        /// BugFix in Release 1.0.1
+        /// - was enumType.GetType().Name
+        /// - now enumType.Name
+        /// </remarks>
         public static string ToCssFontName(this Type enumType)
-            => enumType.GetCustomAttribute<CssNameAttribute>()?.Name ?? enumType.GetType().Name.ToString();
+            => enumType.GetCustomAttribute<CssNameAttribute>()?.Name ?? enumType.Name.ToString();
 
         /// <summary>
         /// Retrieve the JSON-serialized node for this enum value in config.json.

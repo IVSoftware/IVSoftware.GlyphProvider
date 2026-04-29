@@ -1,18 +1,38 @@
 ﻿using IVSoftware.Portable;
-using IVSoftware.Portable.Collections.Dictionaries;
+using IVSoftware.Portable.Common;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using IVSoftware.Portable.Collections.Dictionaries;
 
 namespace FontViewer.Wpf.Demo
 {
     public partial class MainWindow : Window
     {
+        enum NameType { }
         internal static TolerantDictionary<string, FontFamily> FontFamilyCache = new();
         public MainWindow()
         {
             InitializeComponent();
             _ = InitAsync();
+
+            string localMakeFriend()
+            {
+                var asm = GetType().Assembly;
+                var name = asm.GetName();
+                var publicKey = name.GetPublicKey();
+
+                if (publicKey is null || publicKey.Length == 0)
+                    throw new InvalidOperationException("Assembly is not strong-named.");
+
+                var hex = BitConverter
+                    .ToString(publicKey)
+                    .Replace("-", string.Empty)
+                    .ToLowerInvariant();
+
+                return $@"[assembly: InternalsVisibleTo(""{name.Name}, PublicKey={hex}"")]";
+
+            }
         }
         async Task InitAsync()
         {

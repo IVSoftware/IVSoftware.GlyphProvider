@@ -117,4 +117,67 @@ namespace IVSoftware.Portable
 
         public string[] Aliases { get; }
     }
+
+    /// <summary>
+    /// Options for LayoutOptionAttribute
+    /// </summary>
+    [Flags]
+    public enum LayoutOptionFlag
+    {
+        /// <summary>
+        /// Typical for command bars consisting of iconized buttons.
+        /// </summary>
+        Horizontal = 0x0,
+
+        /// <summary>
+        /// Typical for modal command bar stacks with vertical GlyphButtons showing Text.
+        /// </summary>
+        Vertical = 0x1,
+
+        /// <summary>
+        /// Default button style showing glyph only.
+        /// </summary>
+        /// <remarks>
+        /// This style implies a button where WidthTracksHeight.
+        /// - Example
+        /// [🔍]
+        /// </remarks>
+        Glyph = 0x2,
+
+        /// <summary>
+        /// Modal stack button style showing text only.
+        /// </summary>
+        /// <remarks>
+        /// This style implies a button with a letterbox aspect.
+        /// - Example
+        /// [Search]
+        /// </remarks>
+        Text = 0x4,
+
+        /// <summary>
+        /// This style implies a combined view.
+        /// - Example
+        /// [🔍 Search]
+        /// </summary>
+        GlyphAndText = Glyph | Text,
+    }
+
+    /// <summary>
+    /// Intended for enum types that define configuration groups.
+    /// </summary>
+    /// <remarks>
+    /// - Typically, each *member* will have a [Glyph] attribute in this case.
+    /// - However. Vertical stacks often present GlyphButtons with Text instead of Icons.
+    /// - Decorating the enum group can avoid font family searches on non-existent types,
+    ///   while still guarding non-explicit types with warnings for assembly consistency.
+    /// </remarks>
+    [AttributeUsage(AttributeTargets.Enum, AllowMultiple = false)]
+    public class LayoutOptionsAttribute : Attribute
+    {
+        public LayoutOptionsAttribute(LayoutOptionFlag options)
+        {
+            Options = options;
+        }
+        public LayoutOptionFlag Options { get; } = LayoutOptionFlag.Horizontal | LayoutOptionFlag.Glyph;
+    }
 }

@@ -29,18 +29,17 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
 		<PackageReleaseNotes>
-			Initial prerelease including:
-			- Windows-only font loader using System.Drawing.Text.PrivateFontCollection.
-			- Safe AddMemoryFont handling with unmanaged cleanup.
-			- Built-in caching for loaded FontFamily instances.
-			- Integrates with IVSoftware.Portable.GlyphProvider for glyph identity resolution.
+			1.1.0 stable update:
+			- Aligned with the decoupled GlyphProvider portable core.
+			- Verified WinForms demo compatibility against the current portable package behavior.
+			- Prepared as a stable companion package for the 1.1.0 Portable release.
 		</PackageReleaseNotes>
 
 		<AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
 		<DebugType>embedded</DebugType>
 
-		<BaseVersion>1.0.0</BaseVersion>
-		<VersionPrefix>$(BaseVersion)-rc1</VersionPrefix>
+		<BaseVersion>1.1.0</BaseVersion>
+		<VersionPrefix>$(BaseVersion)</VersionPrefix>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -67,7 +66,7 @@
 
 	<!-- Always needed -->
 	<ItemGroup>
-		<PackageReference Include="IVSoftware.Portable.Common" Version="1.0.0-beta" />
+		<PackageReference Include="IVSoftware.Portable.Common" Version="*" />
 	</ItemGroup>
 
 	<!-- Debug uses local project reference -->
@@ -77,7 +76,7 @@
 
 	<!-- Release uses packaged dependency -->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.0.0-*" />
+		<PackageReference Include="IVSoftware.GlyphProvider.Portable" Version="1.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
