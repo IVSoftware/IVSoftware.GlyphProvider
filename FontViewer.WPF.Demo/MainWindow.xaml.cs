@@ -13,11 +13,6 @@ namespace FontViewer.Wpf.Demo
         internal static TolerantDictionary<string, FontFamily> FontFamilyCache = new();
         public MainWindow()
         {
-            string 
-                friend1 = this.ToStrongNamedFriendAssembly(),
-                friend2 = localMakeFriend(),
-                diag = friend1 + Environment.NewLine + friend2;
-
             InitializeComponent();
             _ = InitAsync();
 

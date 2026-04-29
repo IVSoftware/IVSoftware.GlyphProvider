@@ -21,18 +21,16 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageReleaseNotes>
-Initial prerelease including:
-- Embedded config.json glyph metadata discovery.
-- Fuzzy string glyph lookup with fallbacks.
-- CreateEnumPrototype for strongly typed glyph enums.
-- GlyphAttribute for declarative glyph binding.
-- Bundled icon-basics font kit under content/icon-basics/.
+            1.1.0 stable update:
+            - Decoupled core glyph provider behavior from the IVSoftware.Portable.Collections dependency.
+            - Preserved dictionary-shaped provider serialization for compatibility with existing tests and workflows.
+            - Improved demo and startup verification coverage across desktop and MAUI targets.
         </PackageReleaseNotes>
 
         <AssemblyOriginatorKeyFile>D:\PFX\ivsoft-240410.pfx</AssemblyOriginatorKeyFile>
         <DebugType>embedded</DebugType>
-        <BaseVersion>1.0.0</BaseVersion>
-		<!--RTR @ 1.0.0-->
+        <BaseVersion>1.1.0</BaseVersion>
+		<!--RTR @ 1.1.0-->
         <VersionPrefix>$(BaseVersion)</VersionPrefix>
     </PropertyGroup>
 
