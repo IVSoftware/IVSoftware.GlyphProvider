@@ -2,7 +2,7 @@ param(
     [switch]$NoBuild,
     [switch]$SkipLaunch,
     [switch]$IncludeMauiWindows,
-    [int]$ObservationSeconds = 5
+    [int]$ObservationSeconds = 10
 )
 
 Set-StrictMode -Version Latest
@@ -42,6 +42,12 @@ if ($IncludeMauiWindows) {
         Name = 'QuickStart.Maui.Windows'
         Csproj = 'QuickStart.Maui.Demo\QuickStart.Maui.Demo.csproj'
         Exe = 'QuickStart.Maui.Demo\bin\Debug\net10.0-windows10.0.19041.0\win-x64\QuickStart.Maui.Demo.exe'
+        BuildArgs = @('-f', 'net10.0-windows10.0.19041.0', '--no-restore', '/p:UseSharedCompilation=false', '--verbosity', 'minimal')
+    }
+    $desktopProjects += @{
+        Name = 'FontViewer.Maui.Windows'
+        Csproj = 'FontViewer.Maui.Demo\FontViewer.Maui.Demo.csproj'
+        Exe = 'FontViewer.Maui.Demo\bin\Debug\net10.0-windows10.0.19041.0\win-x64\FontViewer.Maui.Demo.exe'
         BuildArgs = @('-f', 'net10.0-windows10.0.19041.0', '--no-restore', '/p:UseSharedCompilation=false', '--verbosity', 'minimal')
     }
 }

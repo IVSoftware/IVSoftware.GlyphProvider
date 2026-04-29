@@ -4,7 +4,7 @@
 		<Title>IVSoftware.GlyphProvider.WinForms</Title>
 		<PackageId>IVSoftware.GlyphProvider.WinForms</PackageId>
 		<Description>
-			Windows-specific font loader and glyph support for IVSoftware’s Portable GlyphProvider.
+			Windows-specific font loader and glyph support for IVSoftware.GlyphProvider.Portable.
 			Provides PrivateFontCollection integration, embedded TTF loading, and GDI+ FontFamily materialization.
 		</Description>
 		<PackageTags>windows;winforms;glyphs;font;privatefontcollection;gdi;icons</PackageTags>

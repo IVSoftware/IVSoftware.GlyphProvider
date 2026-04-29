@@ -19,10 +19,10 @@ By default it:
 
 - builds the desktop demo heads
 - launches each one
-- waits a few seconds
+- waits 10 seconds by default
 - reports whether the process stayed alive or exited immediately
 
-Optionally it can include the Windows head of the MAUI quick start.
+Optionally it can include the Windows heads of the MAUI demos.
 
 ## Why This Exists
 
@@ -41,11 +41,16 @@ From the repo root:
 .\smoke-demos.ps1
 ```
 
-Include the Windows MAUI head too:
+Include the Windows MAUI heads too:
 
 ```powershell
 .\smoke-demos.ps1 -IncludeMauiWindows
 ```
+
+That flag currently adds:
+
+- `QuickStart.Maui.Windows`
+- `FontViewer.Maui.Windows`
 
 Skip the build and just check already-built executables:
 
