@@ -1,9 +1,9 @@
 ﻿using IVSoftware.Portable;
 using IVSoftware.Portable.Common;
-using IVSoftware.Portable.Internal;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using IVSoftware.Portable.Collections.Dictionaries;
 
 namespace FontViewer.Wpf.Demo
 {
