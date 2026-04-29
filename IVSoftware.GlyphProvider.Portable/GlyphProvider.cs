@@ -1,11 +1,15 @@
 ﻿using IVSoftware.Portable.Common.Attributes;
 using IVSoftware.Portable.Common.Exceptions;
+using IVSoftware.Portable.Internal;
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+[assembly: InternalsVisibleTo("FontViewer.Wpf.Demo, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e1f164d857333dfcf4553776c3113969fc04991b6e0d72a969cd4c2d53341fd200e8c850935fd1e11adf7eac3fd9d50de3198aebbe2b6486c72ca205603fd12dc794bbd315e404e3d1f2e1256895a5e9739006d1f69b45de219c738f0c70cd0d6de5cff93f31e361907c09a653c584a51b9ff5201cde3c7ae681c16caa4579ce")]
 namespace IVSoftware.Portable
 {
     public enum GlyphFormat
@@ -62,7 +66,7 @@ namespace IVSoftware.Portable
                     css = stdEnum.ToString();
                 }
                 string? cMe = null;
-                if(GlyphLookup.TryGetValue(css, out var glyph))
+                if(GlyphLookup.TryGetValue(css, out var glyph) && glyph is not null)
                 {
                     cMe = FormatCode(glyph.Code, format);
                 }
@@ -104,7 +108,10 @@ namespace IVSoftware.Portable
 
                 if (exactMatches.Count == 1)
                 {
-                    code = GlyphLookup[exactMatches[0]].Code;
+                    if (GlyphLookup[exactMatches[0]] is { } glyph)
+                    {
+                        code = glyph.Code;
+                    }
                 }
                 else if (exactMatches.Count > 1)
                 {
@@ -121,7 +128,10 @@ namespace IVSoftware.Portable
 
                     if (partialMatches.Count == 1)
                     {
-                        code = GlyphLookup[partialMatches[0]].Code;
+                        if (GlyphLookup[partialMatches[0]] is { } glyph)
+                        {
+                            code = glyph.Code;
+                        }
                     }
                     else
                     {
@@ -177,7 +187,7 @@ namespace IVSoftware.Portable
 
 
         [JsonIgnore]
-        public TolerantDictionary<string, Glyph> GlyphLookup
+        internal TolerantDictionary<string, Glyph> GlyphLookup
         {
             get
             {
@@ -403,9 +413,36 @@ namespace IVSoftware.Portable
         public static ReadOnlyDictionary<string, GlyphProvider> FontFamilies
             => new ReadOnlyDictionary<string, GlyphProvider>(FontFamilyLookupProvider.GetFontFamilies());
 #endif
+        [JsonDictionary]
         [DebuggerDisplay("Count={Count}")]
-        public class GlyphProviderDictionary : TolerantDictionary<string, GlyphProvider> 
+        public class GlyphProviderDictionary : IReadOnlyDictionary<string, GlyphProvider>
         {
+            readonly TolerantDictionary<string, GlyphProvider> _base = new();
+
+            public int Count => _base.AsReadOnly.Count;
+            public IEnumerable<string> Keys => _base.AsReadOnly.Keys;
+            public IEnumerable<GlyphProvider> Values => _base.AsReadOnly.Values;
+
+            [Indexer]
+            public GlyphProvider? this[string key]
+            {
+                get => _base[key];
+                set => _base[key] = value;
+            }
+
+            public bool ContainsKey(string key) => _base.AsReadOnly.ContainsKey(key);
+
+            public bool TryGetValue(string key, out GlyphProvider value)
+            {
+                if (_base.TryGetValue(key, out var preview) && preview is not null)
+                {
+                    value = preview;
+                    return true;
+                }
+                value = null!;
+                return false;
+            }
+
             [Indexer]
             public GlyphProvider? this[Type stdEnumType] => this[stdEnumType, @throw: false];
 
@@ -433,7 +470,7 @@ namespace IVSoftware.Portable
                         }
                         else
                         {
-                            preview = this[key];
+                            preview = _base[key];
                             if (preview is null)
                             {
                                 // This is a helpful reminder for both IFDs and EUDs!
@@ -473,6 +510,17 @@ namespace IVSoftware.Portable
                     return preview;
                 }
             }
+
+            internal event EventHandler<CollectionChangingEventArgs>? CollectionChanging
+            {
+                add => _base.CollectionChanging += value;
+                remove => _base.CollectionChanging -= value;
+            }
+
+            public IEnumerator<KeyValuePair<string, GlyphProvider>> GetEnumerator()
+                => _base.AsReadOnly.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
         public static GlyphProviderDictionary Providers
         {
