@@ -1,10 +1,9 @@
-﻿using IVSoftware.Portable.Collections.Dictionaries;
+﻿using IVSoftware.Portable.Common.Attributes;
 using IVSoftware.Portable.Common.Exceptions;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace IVSoftware.Portable

@@ -60,7 +60,7 @@ Initial prerelease including:
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IVSoftware.Portable.Common" Version="*-*" />
+        <PackageReference Include="IVSoftware.Portable.Common" Version="*" />
         <PackageReference Include="IVSoftware.Portable.Disposable" Version="2.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="*" />
     </ItemGroup>
@@ -68,13 +68,5 @@ Initial prerelease including:
     <ItemGroup>
       <Folder Include="README\" />
     </ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-      <ProjectReference Include="..\..\Portable\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections\IVSoftware.Portable.Collections.csproj" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="IVSoftware.Portable.Collections" Version="1.0.0-alpha01" />
-	</ItemGroup>
 
 </Project>

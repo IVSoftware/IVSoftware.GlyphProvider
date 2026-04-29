@@ -1,4 +1,5 @@
-﻿using IVSoftware.Portable.Common.Exceptions;
+﻿using IVSoftware.Portable.Common.Attributes;
+using IVSoftware.Portable.Common.Exceptions;
 using System.Reflection;
 using System.Text;
 
